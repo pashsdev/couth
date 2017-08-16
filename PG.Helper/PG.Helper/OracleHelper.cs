@@ -71,6 +71,62 @@ namespace PG.Helper
         }
         #endregion
 
+        #region "ExecuteNonQuery"
+        public static int ExecuteNonQuery(string connectionString, string command, CommandType commandType, OracleParameterList parameters, int commandTimeoutInSeconds)
+        {
+            int result;
+            int num = 0;
+            using (OracleConnection oracleConnection = new OracleConnection(connectionString))
+            {
+                oracleConnection.Open();
+                num = ExecuteNonQuery(oracleConnection, command, commandType, parameters, commandTimeoutInSeconds);
+                oracleConnection.Close();
+            }
+            if (commandType == CommandType.Text)
+            {
+                result = num;
+            }
+            else
+            {
+                result = -1;
+            }
+            return result;
+        }
+
+        public static int ExecuteNonQuery(OracleConnection connection, string command, CommandType commandType, OracleParameterList parameters, int commandTimeoutInSeconds)
+        {
+            int result;
+            int num = 0;
+            OracleParameter[] sqlParameterList = GetOracleParameterList(parameters);
+            using (OracleCommand oracleCommand = new OracleCommand())
+            {
+                oracleCommand.Connection = connection;
+                oracleCommand.CommandText = command;
+                oracleCommand.CommandType = commandType;
+                //sqlCommand.Transaction = connection.BeginTransaction();
+                if (commandTimeoutInSeconds > 0)
+                {
+                    oracleCommand.CommandTimeout = commandTimeoutInSeconds;
+                }
+                oracleCommand.Parameters.AddRange(sqlParameterList);
+                DateTime now = DateTime.Now;
+                num = oracleCommand.ExecuteNonQuery();
+
+                TimeSpan duration = DateTime.Now.Subtract(now);
+
+                if (commandType == CommandType.Text)
+                {
+                    result = num;
+                }
+                else
+                {
+                    result = -1;
+                }
+            }
+            return result;
+        }
+        #endregion
+
         public static OracleParameter[] GetOracleParameterList(OracleParameterList parameters)
         {
             List<OracleParameter> list = new List<OracleParameter>();

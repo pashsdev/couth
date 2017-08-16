@@ -17,6 +17,7 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
         string jobNo = string.Empty;
         string serialNoFrom = string.Empty;
         string serialNoTo = string.Empty;
+        Int64 oracleUnitID = 0;
         if (Request.QueryString["JobNo"] != null)
         {
             jobNo = Request.QueryString["JobNo"].ToString();
@@ -29,18 +30,23 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
         {
             serialNoTo = Request.QueryString["serialnoto"].ToString();
         }
+        if (Request.QueryString["OracleUnitID"] != null)
+        {
+            Int64.TryParse(Request.QueryString["OracleUnitID"].ToString(), out oracleUnitID);
+        }
         if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "save")
         {
             string data = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
             SaveData(data);
+            UpdatePrintData(data);
         }
         else
         {
-            PrintData(jobNo, serialNoFrom, serialNoTo);
+            PrintData(jobNo, serialNoFrom, serialNoTo, oracleUnitID);
         }
     }
 
-    private void PrintData(string jobno, string SerialNoFrom, string SerialNoTo)
+    private void PrintData(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
     {
         string json = string.Empty;
         try
@@ -50,7 +56,7 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
             string query = "PG_GET_JOBNODETAILS";
             //string query = "SELECT sn.Item_name,e.Jobnumber,e.SERIAL_NUMBER,'tt' as TemplateName FROM cri_catalog_values e INNER JOIN cri_serial_numbers sn ON e.Item_Code=sn.Item_name ";
             //string query = "Select * From cri_catalog_values";
-            parameters.Add("p_org_id", DBNull.Value, SqlDbType.BigInt);
+            parameters.Add("p_org_id", oracleUnitID, SqlDbType.BigInt);
             if (!string.IsNullOrEmpty(jobno))
             {
                 parameters.Add("Jobno", jobno, SqlDbType.VarChar);
@@ -151,6 +157,43 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
         {
             Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             Response.StatusDescription = ex.Message;
+        }
+    }
+
+    private void UpdatePrintData(string json)
+    {
+        try
+        {
+            List<Search> lstsearchRequest = JsonConvert.DeserializeObject<List<Search>>(json);
+            foreach (Search searchRequest in lstsearchRequest)
+            {
+                ParameterList parameters = new ParameterList();
+                string connectionString = Common.GetSQLConnectionString();
+                string query = "PG_UPDATE_JOBNODETAILS";
+                //string query = "SELECT sn.Item_name,e.Jobnumber,e.SERIAL_NUMBER,'tt' as TemplateName FROM cri_catalog_values e INNER JOIN cri_serial_numbers sn ON e.Item_Code=sn.Item_name ";
+                //string query = "Select * From cri_catalog_values";
+
+                if (!string.IsNullOrEmpty(searchRequest.SerialNo))
+                {
+                    parameters.Add("p_serial", searchRequest.SerialNo, SqlDbType.VarChar);
+                }
+                else
+                {
+                    parameters.Add("p_serial", DBNull.Value, SqlDbType.VarChar);
+                }
+
+                SqlHelper.ExecuteNonQuery(connectionString, query, CommandType.StoredProcedure, parameters, -1);
+            }
+        }
+        catch (Exception ex)
+        {
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            Response.StatusDescription = ex.Message;
+        }
+        finally
+        {
+            Response.Write(json);
+            Response.End();
         }
     }
 }

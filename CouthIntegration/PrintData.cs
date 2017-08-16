@@ -19,7 +19,7 @@ namespace CouthIntegration
         string _fileDirectory = "D:\\Marking";
         string _fileName = "text.txt";
         List<Template> _templates = new List<Template>();
-
+        List<Unit> _units = new List<Unit>();
         public PrintData()
         {
             InitializeComponent();
@@ -38,7 +38,9 @@ namespace CouthIntegration
             //}
             //CmbJobNo.DataSource = jobnos;
 
-            CmbUnits.DataSource = Common.GetUnits(0);
+            _units = Common.GetUnits(0);
+            CmbUnits.DataSource = _units;
+
             List<Template> templates = Common.GetTemplates(0);
             CmbTemplate.DataSource = templates;
             _templates = templates;
@@ -49,11 +51,11 @@ namespace CouthIntegration
 
         }
 
-        public List<Search> GetSearchDetails(string Jobno, string SerialNoFrom, string SerialNoTo)
+        public List<Search> GetSearchDetails(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
         {
             string webserviceURL = Common.GetWebServiceURL();
 
-            string qs = string.Format("?jobno={0}&serialnofrom={1}&serialnoto={2}", Jobno, SerialNoFrom, SerialNoTo);
+            string qs = string.Format("?jobno={0}&serialnofrom={1}&serialnoto={2}&oracleunitid={3}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID);
             if (Debugger.IsAttached)
             {
                 webserviceURL = string.Concat(webserviceURL, "GetPrintDataLocal.aspx", qs);
@@ -145,8 +147,15 @@ namespace CouthIntegration
                 //jobno = CmbJobNo.Text;
                 jobno = txtJobNo.Text;
                 //}
-                List<Search> lstSearch = GetSearchDetails(jobno, txtSerialNoFrom.Text, txtSerialNoTo.Text);
-                
+                Int64 unitID = 0;
+                Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
+                Int64 oracleUnitID = 0;
+                if (unitID > 0)
+                {
+                    oracleUnitID = _units.Where(x => x.UnitID == unitID).Select(x => x.OracleUnitID).FirstOrDefault();
+                }
+                List<Search> lstSearch = GetSearchDetails(jobno, txtSerialNoFrom.Text, txtSerialNoTo.Text, oracleUnitID);
+
                 //List<Reprint> lstPrinted = GetReprintRequest();
 
                 //lstSearch = lstSearch.Where(x => x.JobNo == (lstPrinted.Select(y => y.Jobnumber)));
@@ -344,7 +353,7 @@ namespace CouthIntegration
         {
             for (int i = 0; i < Grid.Rows.Count; i++)
             {
-                if (Common.IsOdd(i))
+                if (!Common.IsOdd(i))
                 {
                     DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
                     chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
@@ -356,7 +365,7 @@ namespace CouthIntegration
         {
             for (int i = 0; i < Grid.Rows.Count; i++)
             {
-                if (!Common.IsOdd(i))
+                if (Common.IsOdd(i))
                 {
                     DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
                     chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
@@ -389,7 +398,5 @@ namespace CouthIntegration
                 chk.Value = false;
             }
         }
-
-
     }
 }

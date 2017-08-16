@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CouthIntegration.exe" size="89600">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CouthIntegration.exe" size="90624">
       <assemblyIdentity name="CouthIntegration" version="1.0.0.0" publicKeyToken="037E8B3C23AFBA70" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Ie7dfH5kTJayGOSxXgtGvtkLIQ4=</dsig:DigestValue>
+        <dsig:DigestValue>IeOQLXORgDuY3jWhgSrKYPLtVTI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TransferDatas.dll" size="15872">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TransferDatas.dll" size="16384">
       <assemblyIdentity name="TransferDatas" version="1.0.0.0" publicKeyToken="93F0614CCBA27D5D" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>EaltT7xjf7+7pVxDSaTtNdzxPQ0=</dsig:DigestValue>
+        <dsig:DigestValue>9XqdoeeATKJeFja4BEsAbRWzZNs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

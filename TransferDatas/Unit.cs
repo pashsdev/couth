@@ -24,6 +24,6 @@ namespace TransferDatas
         public Int64 DesignationID { get; set; }
         public Int64 UserID { get; set; }
         public bool IsAvailable { get; set; }
-            
+        public string Designation { get; set; }
     }
 }

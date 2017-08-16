@@ -67,6 +67,7 @@ public partial class GetUnits : System.Web.UI.Page
                 right.UnitID = helper.GetInt64("UnitID");
                 right.UnitRightsID = helper.GetInt64("UnitRightsID");
                 right.UserID = helper.GetInt64("UserID");
+                right.Designation = helper.GetString("Designation");
                 unitRights.Add(right);
             }
 
@@ -136,14 +137,17 @@ public partial class GetUnits : System.Web.UI.Page
             List<UnitRight> unitRights = unitRequest.UnitRights;
             foreach (UnitRight rights in unitRights)
             {
-                parameters = new ParameterList();
-                parameters.Add("UnitRightsID", rights.UnitRightsID, SqlDbType.BigInt);
-                parameters.Add("UnitID", rights.UnitID, SqlDbType.BigInt);
-                parameters.Add("UserID", rights.UserID, SqlDbType.BigInt);
-                parameters.Add("DesignationID", rights.DesignationID, SqlDbType.BigInt);
-                parameters.Add("IsAvailable", rights.Available, SqlDbType.Bit);
+                if (rights.UserID > 0)
+                {
+                    parameters = new ParameterList();
+                    parameters.Add("UnitRightsID", rights.UnitRightsID, SqlDbType.BigInt);
+                    parameters.Add("UnitID", rights.UnitID, SqlDbType.BigInt);
+                    parameters.Add("UserID", rights.UserID, SqlDbType.BigInt);
+                    parameters.Add("DesignationID", rights.DesignationID, SqlDbType.BigInt);
+                    parameters.Add("IsAvailable", rights.Available, SqlDbType.Bit);
 
-                SqlHelper.ExecuteNonQuery(connectionstring, "PG_UnitRights_Save", CommandType.StoredProcedure, parameters);
+                    SqlHelper.ExecuteNonQuery(connectionstring, "PG_UnitRights_Save", CommandType.StoredProcedure, parameters);
+                }
             }
         }
         catch (Exception ex)
@@ -152,12 +156,12 @@ public partial class GetUnits : System.Web.UI.Page
             Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             Response.StatusDescription = ex.Message;
             Response.Write(ex.Message);
-            
+
             //throw;
         }
         finally
         {
-            
+
             //Response.Write("Error");
             Response.End();
         }
@@ -184,5 +188,6 @@ public partial class GetUnits : System.Web.UI.Page
         public Int64 DesignationID { get; set; }
         public Int64 UserID { get; set; }
         public bool Available { get; set; }
+        public string Designation { get; set; }
     }
 }

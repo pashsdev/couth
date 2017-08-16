@@ -32,10 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtUnit = new System.Windows.Forms.TextBox();
             this.Grid = new System.Windows.Forms.DataGridView();
-            this.DgvColApprover = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.DgvColUnitRightsID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColDesignation = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.DgvColAvailable = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
@@ -44,6 +40,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
+            this.DgvColDesignation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColApprover = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.DgvColUnitRightsID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColDesignationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColAvailable = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -67,45 +68,20 @@
             // 
             // Grid
             // 
+            this.Grid.AllowUserToAddRows = false;
             this.Grid.AllowUserToDeleteRows = false;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DgvColDesignation,
             this.DgvColApprover,
             this.DgvColUnitRightsID,
-            this.DgvColDesignation,
+            this.DgvColDesignationID,
             this.DgvColAvailable});
             this.Grid.Location = new System.Drawing.Point(8, 86);
             this.Grid.Name = "Grid";
             this.Grid.Size = new System.Drawing.Size(473, 243);
             this.Grid.TabIndex = 2;
-            // 
-            // DgvColApprover
-            // 
-            this.DgvColApprover.DataPropertyName = "UserID";
-            this.DgvColApprover.HeaderText = "Approver";
-            this.DgvColApprover.Name = "DgvColApprover";
-            this.DgvColApprover.Width = 150;
-            // 
-            // DgvColUnitRightsID
-            // 
-            this.DgvColUnitRightsID.DataPropertyName = "UnitRightsID";
-            this.DgvColUnitRightsID.HeaderText = "UnitRightsID";
-            this.DgvColUnitRightsID.Name = "DgvColUnitRightsID";
-            this.DgvColUnitRightsID.ReadOnly = true;
-            this.DgvColUnitRightsID.Visible = false;
-            // 
-            // DgvColDesignation
-            // 
-            this.DgvColDesignation.DataPropertyName = "DesignationID";
-            this.DgvColDesignation.HeaderText = "Designation";
-            this.DgvColDesignation.Name = "DgvColDesignation";
-            this.DgvColDesignation.Width = 150;
-            // 
-            // DgvColAvailable
-            // 
-            this.DgvColAvailable.DataPropertyName = "Available";
-            this.DgvColAvailable.HeaderText = "Available";
-            this.DgvColAvailable.Name = "DgvColAvailable";
+            this.Grid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Grid_DataError);
             // 
             // panel1
             // 
@@ -171,11 +147,52 @@
             // chkActive
             // 
             this.chkActive.AutoSize = true;
+            this.chkActive.Checked = true;
+            this.chkActive.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkActive.Location = new System.Drawing.Point(82, 66);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(15, 14);
             this.chkActive.TabIndex = 19;
             this.chkActive.UseVisualStyleBackColor = true;
+            // 
+            // DgvColDesignation
+            // 
+            this.DgvColDesignation.DataPropertyName = "Designation";
+            this.DgvColDesignation.HeaderText = "Designation";
+            this.DgvColDesignation.Name = "DgvColDesignation";
+            this.DgvColDesignation.ReadOnly = true;
+            this.DgvColDesignation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvColDesignation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.DgvColDesignation.Width = 150;
+            // 
+            // DgvColApprover
+            // 
+            this.DgvColApprover.DataPropertyName = "UserID";
+            this.DgvColApprover.HeaderText = "Approver";
+            this.DgvColApprover.Name = "DgvColApprover";
+            this.DgvColApprover.Width = 150;
+            // 
+            // DgvColUnitRightsID
+            // 
+            this.DgvColUnitRightsID.DataPropertyName = "UnitRightsID";
+            this.DgvColUnitRightsID.HeaderText = "UnitRightsID";
+            this.DgvColUnitRightsID.Name = "DgvColUnitRightsID";
+            this.DgvColUnitRightsID.ReadOnly = true;
+            this.DgvColUnitRightsID.Visible = false;
+            // 
+            // DgvColDesignationID
+            // 
+            this.DgvColDesignationID.DataPropertyName = "DesignationID";
+            this.DgvColDesignationID.HeaderText = "DesignationID";
+            this.DgvColDesignationID.Name = "DgvColDesignationID";
+            this.DgvColDesignationID.ReadOnly = true;
+            this.DgvColDesignationID.Visible = false;
+            // 
+            // DgvColAvailable
+            // 
+            this.DgvColAvailable.DataPropertyName = "Available";
+            this.DgvColAvailable.HeaderText = "Available";
+            this.DgvColAvailable.Name = "DgvColAvailable";
             // 
             // UnitCreation
             // 
@@ -213,13 +230,14 @@
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.DataGridViewComboBoxColumn DgvColApprover;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColUnitRightsID;
-        private System.Windows.Forms.DataGridViewComboBoxColumn DgvColDesignation;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColAvailable;
         private System.Windows.Forms.TextBox txtOracleUnitID;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chkActive;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColDesignation;
+        private System.Windows.Forms.DataGridViewComboBoxColumn DgvColApprover;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColUnitRightsID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColDesignationID;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColAvailable;
     }
 }

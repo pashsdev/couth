@@ -85,5 +85,6 @@ namespace CouthIntegration
         public Int64 DesignationID { get; set; }
         public Int64 UserID { get; set; }
         public bool Available { get; set; }
+        public string Designation { get; set; }
     }
 }

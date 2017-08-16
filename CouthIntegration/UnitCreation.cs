@@ -34,26 +34,26 @@ namespace CouthIntegration
                 }
             }
 
-            List<Designation> designations = new List<Designation>();
-            Designation designation = new Designation();
-            designation.DesignationID = 1;
-            designation.DesignationName = "Sr. Manager";
-            designations.Add(designation);
+            //List<Designation> designations = new List<Designation>();
+            //Designation designation = new Designation();
+            //designation.DesignationID = 1;
+            //designation.DesignationName = "Sr. Manager";
+            //designations.Add(designation);
 
-            designation = new Designation();
-            designation.DesignationID = 2;
-            designation.DesignationName = "Manager";
-            designations.Add(designation);
+            //designation = new Designation();
+            //designation.DesignationID = 2;
+            //designation.DesignationName = "Manager";
+            //designations.Add(designation);
 
-            designation = new Designation();
-            designation.DesignationID = 3;
-            designation.DesignationName = "Supervisor";
-            designations.Add(designation);
+            //designation = new Designation();
+            //designation.DesignationID = 3;
+            //designation.DesignationName = "Supervisor";
+            //designations.Add(designation);
 
-            DataGridViewComboBoxColumn CmbDesignation = (DataGridViewComboBoxColumn)Grid.Columns["DgvColDesignation"];
-            CmbDesignation.DataSource = designations;
-            CmbDesignation.DisplayMember = "DesignationName";
-            CmbDesignation.ValueMember = "DesignationID";
+            //DataGridViewComboBoxColumn CmbDesignation = (DataGridViewComboBoxColumn)Grid.Columns["DgvColDesignation"];
+            //CmbDesignation.DataSource = designations;
+            //CmbDesignation.DisplayMember = "DesignationName";
+            //CmbDesignation.ValueMember = "DesignationID";
 
             Users users = GetUsers(0);
             List<User> user = users.users.Where(x => x.IsApprover).ToList();
@@ -130,10 +130,10 @@ namespace CouthIntegration
                 unitResponse = JsonConvert.DeserializeObject<UnitResponse>(responseString);
                 units = unitResponse.LstUnits;
 
-                DataGridViewComboBoxColumn CmbDesignation = (DataGridViewComboBoxColumn)Grid.Columns["DgvColDesignation"];
-                CmbDesignation.DataSource = unitResponse.Designations;
-                CmbDesignation.DisplayMember = "DesignationName";
-                CmbDesignation.ValueMember = "DesignationID";
+                //DataGridViewComboBoxColumn CmbDesignation = (DataGridViewComboBoxColumn)Grid.Columns["DgvColDesignation"];
+                //CmbDesignation.DataSource = unitResponse.Designations;
+                //CmbDesignation.DisplayMember = "DesignationName";
+                //CmbDesignation.ValueMember = "DesignationID";
 
                 DataGridViewComboBoxColumn CmbApprover = (DataGridViewComboBoxColumn)Grid.Columns["DgvColApprover"];
                 CmbApprover.DataSource = unitResponse.Users;
@@ -169,6 +169,7 @@ namespace CouthIntegration
                     listing.LoadUnits();
                     listing.LoadUnitGrid();
                 }
+                this.Close();
             }
         }
 
@@ -207,7 +208,7 @@ namespace CouthIntegration
                         bool isAvailable = false;
 
                         Int64.TryParse(string.Concat(row.Cells["DgvColUnitRightsID"].Value), out unitRightsID);
-                        Int64.TryParse(row.Cells["DgvColDesignation"].Value.ToString(), out designationID);
+                        Int64.TryParse(row.Cells["DgvColDesignationID"].Value.ToString(), out designationID);
                         Int64.TryParse(row.Cells["DgvColApprover"].Value.ToString(), out userID);
                         if (row.Cells["DgvColAvailable"].Value != null)
                         {
@@ -275,6 +276,12 @@ namespace CouthIntegration
                 retValue = false;
             }
 
+            if (String.IsNullOrEmpty(txtOracleUnitID.Text))
+            {
+                errorProvider1.SetError(txtOracleUnitID, "Enter Oracle UnitID");
+                retValue = false;
+            }
+
             return retValue;
         }
 
@@ -299,6 +306,14 @@ namespace CouthIntegration
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void Grid_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                //MessageBox.Show(e.Exception.Message);
             }
         }
 
