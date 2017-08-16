@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <add key="WebServiceURL" value="http://192.168.50.145/webservices/" />
+    <add key="DevWebServiceURL" value="http://localhost/Testapp//" />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+  </appSettings>
+</configuration>

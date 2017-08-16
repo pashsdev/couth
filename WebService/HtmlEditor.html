@@ -1,0 +1,25 @@
+﻿<!doctype html>
+<html>
+<head>
+    <script type="text/javascript">
+        function bold() {
+            if (oDiv.isContentEditable == true) {
+                document.execCommand("Bold");
+            }
+        }
+        function italic() {
+            if (oDiv.isContentEditable == true) {
+                document.execCommand("Italic");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="oDiv" contenteditable="true" align="left" style="height: 99%; width: 96%; background-color:white; font-face: Arial;top:0px;left:0px; border:solid; border-width:1px; scrollbar-base-color: #99ccff; overflow: auto;">
+        this is the <strong>bold</strong> text and <em>Italic</em> and <u>underline </u><a href="#">link </a><span style="color: red" draggable="true" contenteditable="false">Readonly text</span>
+    </div>
+</body>
+</html>
+
+
+

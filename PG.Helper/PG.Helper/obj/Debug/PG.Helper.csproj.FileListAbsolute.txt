@@ -1,0 +1,6 @@
+C:\Prakash\Projects\CRI\PG.Helper\PG.Helper\bin\Debug\PG.Helper.dll
+C:\Prakash\Projects\CRI\PG.Helper\PG.Helper\bin\Debug\PG.Helper.pdb
+C:\Prakash\Projects\CRI\PG.Helper\PG.Helper\bin\Debug\Oracle.DataAccess.dll
+C:\Prakash\Projects\CRI\PG.Helper\PG.Helper\obj\Debug\PG.Helper.csprojResolveAssemblyReference.cache
+C:\Prakash\Projects\CRI\PG.Helper\PG.Helper\obj\Debug\PG.Helper.dll
+C:\Prakash\Projects\CRI\PG.Helper\PG.Helper\obj\Debug\PG.Helper.pdb
