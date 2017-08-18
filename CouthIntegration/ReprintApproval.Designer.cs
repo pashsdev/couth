@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CmbRequestNo = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtJobNo = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.BtnList = new System.Windows.Forms.Button();
             this.CmbUnits = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,6 +41,8 @@
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColReprintDetailsID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColReprintID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColRequestNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColRequestDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColRequestedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,17 +62,56 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.CmbRequestNo);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.txtJobNo);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.BtnList);
             this.panel1.Controls.Add(this.CmbUnits);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(8, 8);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(954, 32);
+            this.panel1.Size = new System.Drawing.Size(1279, 32);
             this.panel1.TabIndex = 4;
+            // 
+            // CmbRequestNo
+            // 
+            this.CmbRequestNo.DisplayMember = "ReprintNo";
+            this.CmbRequestNo.FormattingEnabled = true;
+            this.CmbRequestNo.Location = new System.Drawing.Point(581, 5);
+            this.CmbRequestNo.Name = "CmbRequestNo";
+            this.CmbRequestNo.Size = new System.Drawing.Size(254, 21);
+            this.CmbRequestNo.TabIndex = 22;
+            this.CmbRequestNo.ValueMember = "ReprintID";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(510, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Request No";
+            // 
+            // txtJobNo
+            // 
+            this.txtJobNo.Location = new System.Drawing.Point(305, 6);
+            this.txtJobNo.Name = "txtJobNo";
+            this.txtJobNo.Size = new System.Drawing.Size(191, 20);
+            this.txtJobNo.TabIndex = 20;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(256, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Job No";
             // 
             // BtnList
             // 
-            this.BtnList.Location = new System.Drawing.Point(874, 4);
+            this.BtnList.Location = new System.Drawing.Point(1197, 4);
             this.BtnList.Name = "BtnList";
             this.BtnList.Size = new System.Drawing.Size(75, 23);
             this.BtnList.TabIndex = 4;
@@ -100,6 +145,8 @@
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DgvColSno,
+            this.DgvColReprintDetailsID,
+            this.DgvColReprintID,
             this.DgvColRequestNo,
             this.DgvColRequestDate,
             this.DgvColRequestedBy,
@@ -113,7 +160,7 @@
             this.DgvColRejRemarks});
             this.Grid.Location = new System.Drawing.Point(8, 46);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(954, 323);
+            this.Grid.Size = new System.Drawing.Size(1279, 453);
             this.Grid.TabIndex = 5;
             // 
             // panel2
@@ -121,23 +168,24 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.BtnCancel);
             this.panel2.Controls.Add(this.BtnSave);
-            this.panel2.Location = new System.Drawing.Point(8, 375);
+            this.panel2.Location = new System.Drawing.Point(8, 505);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(954, 34);
+            this.panel2.Size = new System.Drawing.Size(1279, 34);
             this.panel2.TabIndex = 16;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(874, 6);
+            this.BtnCancel.Location = new System.Drawing.Point(1197, 6);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 23);
             this.BtnCancel.TabIndex = 15;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // BtnSave
             // 
-            this.BtnSave.Location = new System.Drawing.Point(793, 6);
+            this.BtnSave.Location = new System.Drawing.Point(1116, 6);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(75, 23);
             this.BtnSave.TabIndex = 14;
@@ -152,9 +200,25 @@
             this.DgvColSno.Name = "DgvColSno";
             this.DgvColSno.ReadOnly = true;
             // 
+            // DgvColReprintDetailsID
+            // 
+            this.DgvColReprintDetailsID.DataPropertyName = "ReprintDetailsID";
+            this.DgvColReprintDetailsID.HeaderText = "ReprintDetailsID";
+            this.DgvColReprintDetailsID.Name = "DgvColReprintDetailsID";
+            this.DgvColReprintDetailsID.ReadOnly = true;
+            this.DgvColReprintDetailsID.Visible = false;
+            // 
+            // DgvColReprintID
+            // 
+            this.DgvColReprintID.DataPropertyName = "ReprintID";
+            this.DgvColReprintID.HeaderText = "ReprintID";
+            this.DgvColReprintID.Name = "DgvColReprintID";
+            this.DgvColReprintID.ReadOnly = true;
+            this.DgvColReprintID.Visible = false;
+            // 
             // DgvColRequestNo
             // 
-            this.DgvColRequestNo.DataPropertyName = "RequestNo";
+            this.DgvColRequestNo.DataPropertyName = "ReprintNo";
             this.DgvColRequestNo.HeaderText = "Request No";
             this.DgvColRequestNo.Name = "DgvColRequestNo";
             this.DgvColRequestNo.ReadOnly = true;
@@ -231,11 +295,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(974, 412);
+            this.ClientSize = new System.Drawing.Size(1299, 551);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel1);
             this.Name = "ReprintApproval";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Reprint Approval";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -255,7 +320,13 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.TextBox txtJobNo;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox CmbRequestNo;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColSno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintDetailsID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintID;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRequestNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRequestDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRequestedBy;

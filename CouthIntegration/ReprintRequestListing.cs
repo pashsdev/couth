@@ -21,6 +21,7 @@ namespace CouthIntegration
             InitializeComponent();
             LoadUnits();
             LoadRequestNo();
+            DtFrom.Value = DateTime.Now.AddDays(-30);
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
@@ -31,7 +32,7 @@ namespace CouthIntegration
 
         public void LoadRequestNo()
         {
-            List<ReprintMaster> masters = GetReprintMaster();
+            List<ReprintMaster> masters = Common.GetReprintMaster("", "", "", 0, 0, DateTime.MinValue, DateTime.MinValue);
             if (masters != null)
             {
                 ReprintMaster master = new ReprintMaster();
@@ -52,126 +53,27 @@ namespace CouthIntegration
             CmbUnits.DataSource = _units;
         }
 
-        public List<ReprintMaster> GetReprintMaster()
-        {
-            string webserviceURL = Common.GetWebServiceURL();
-            webserviceURL = string.Concat(webserviceURL, "Reprint.aspx?cmd=reprintmaster");
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
-            request.Method = "GET";
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            WebResponse response = null;
-            string responseString = string.Empty;
-            List<ReprintMaster> lstReprint = null;
-            try
-            {
-                response = request.GetResponse();
-                using (Stream stream = response.GetResponseStream())
-                {
-                    StreamReader sr = new StreamReader(stream);
-                    responseString = sr.ReadToEnd();
-                }
-
-                lstReprint = JsonConvert.DeserializeObject<List<ReprintMaster>>(responseString);
-            }
-            catch (WebException ex)
-            {
-                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
-                {
-                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "Reprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            return lstReprint;
-        }
-
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            if (ValidateSearch())
-            {
-                Int64 unitID = 0;
-                Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
-               
-                Int64 reprintID = 0;
-                Int64.TryParse(CmbRequestNo.SelectedValue.ToString(), out reprintID);
-                Grid.AutoGenerateColumns = false;
-                Grid.DataSource = GetReprintListing(txtJobNo.Text, txtSerialNoFrom.Text, txtSerialNoTo.Text, unitID, reprintID, DtFrom.Value, DtTo.Value);
-            }
+            Int64 unitID = 0;
+            Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
+
+            Int64 reprintID = 0;
+            Int64.TryParse(CmbRequestNo.SelectedValue.ToString(), out reprintID);
+            Grid.AutoGenerateColumns = false;
+            Grid.DataSource = Common.GetReprintMaster(txtJobNo.Text, txtSerialNoFrom.Text, txtSerialNoTo.Text, unitID, reprintID, DtFrom.Value, DtTo.Value);
         }
 
-        public List<ReprintMaster> GetReprintListing(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID, Int64 ReprintID, DateTime FromDt, DateTime ToDate)
+        private void btnEdit_Click(object sender, EventArgs e)
         {
-            string webserviceURL = Common.GetWebServiceURL();
-            webserviceURL = string.Concat(webserviceURL, "Reprint.aspx");
-            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&oracleUnitID={3}&reprintid={4}&FromDt={5}&ToDate={6}"
-                , Jobno, SerialNoFrom, SerialNoTo, oracleUnitID, ReprintID, FromDt, ToDate);
-            webserviceURL = string.Concat(webserviceURL, "?cmd=listing", qs);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
-            request.Method = "GET";
-            request.ContentType = "application/x-www-form-urlencoded";
-            WebResponse response = null;
-            string responseString = string.Empty;
-            List<ReprintMaster> lstReprint = null;
-            try
+            Int64 reprintID = 0;
+            if (Grid.SelectedRows.Count > 0)
             {
-                response = request.GetResponse();
-                using (Stream stream = response.GetResponseStream())
-                {
-                    StreamReader sr = new StreamReader(stream);
-                    responseString = sr.ReadToEnd();
-                }
-
-                lstReprint = JsonConvert.DeserializeObject<List<ReprintMaster>>(responseString);
+                int rowIndex = Grid.SelectedCells[0].RowIndex;
+                Int64.TryParse(Grid.Rows[rowIndex].Cells["DgvcolReprintID"].Value.ToString(), out reprintID);
+                ReprintRequest reprintRequest = new ReprintRequest(reprintID);
+                reprintRequest.ShowDialog();
             }
-            catch (WebException ex)
-            {
-                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
-                {
-                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "Reprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            return lstReprint;
-        }
-
-        private bool ValidateSearch()
-        {
-            if (RadJobno.Checked && string.IsNullOrEmpty(txtJobNo.Text.Trim()))
-            {
-                MessageBox.Show("Enter Job No", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                txtJobNo.Focus();
-                return false;
-            }
-            if (RadSerialNo.Checked)
-            {
-                if (string.IsNullOrEmpty(txtSerialNoFrom.Text.Trim()))
-                {
-                    MessageBox.Show("Enter Serial No From", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    txtSerialNoFrom.Focus();
-                    return false;
-                }
-                else if (string.IsNullOrEmpty(txtSerialNoTo.Text.Trim()))
-                {
-                    MessageBox.Show("Enter Serial No To", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    txtSerialNoTo.Focus();
-                    return false;
-                }
-            }
-            if (CmbUnits.SelectedIndex <= 0)
-            {
-                MessageBox.Show("Select Unit", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                CmbUnits.Focus();
-                return false;
-            }
-
-            return true;
         }
     }
 }

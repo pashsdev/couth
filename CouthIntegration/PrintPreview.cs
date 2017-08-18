@@ -16,13 +16,13 @@ namespace CouthIntegration
         private DataGridView _grid;
         private List<string> _templateText = new List<string>();
         private int _index = 0;
-        public PrintPreview(DataGridView grid,string templateText)
+        public PrintPreview(DataGridView grid, string templateText)
         {
             InitializeComponent();
             _grid = grid;
-            
-           _templateText = GetTemplateText(templateText);
-           rtfPreview.Text = _templateText[0];
+
+            _templateText = GetTemplateText(templateText);
+            rtfPreview.Text = _templateText[0];
         }
 
         private void Print(string template)
@@ -80,8 +80,8 @@ namespace CouthIntegration
                 if (row.Cells["DgvColJobno"] != null && row.Cells["DgvColMark"].Value != null && Convert.ToBoolean(row.Cells["DgvColMark"].Value))
                 {
                     StringBuilder jobnos = new StringBuilder(templateFormat);
-                    jobnos = jobnos.Replace("[@jobno@]", GetValue( row.Cells["DgvColJobno"]));
-                    jobnos = jobnos.Replace("[@serialno@]",GetValue( row.Cells["DgvColSerialNo"]));
+                    jobnos = jobnos.Replace("[@jobno@]", GetValue(row.Cells["DgvColJobno"]));
+                    jobnos = jobnos.Replace("[@serialno@]", GetValue(row.Cells["DgvColSerialNo"]));
                     jobnos = jobnos.Replace("[@model@]", GetValue(row.Cells["DgvColR01_PUMP_MODEL"]));
                     jobnos = jobnos.Replace("[@volts@]", GetValue(row.Cells["DgvColR01_VOLTS"]));
                     jobnos = jobnos.Replace("[@icl@]", GetValue(row.Cells["DgvcolCATEGORY"]));
@@ -95,9 +95,9 @@ namespace CouthIntegration
                     jobnos = jobnos.Replace("[@deliverysize@]", GetValue(row.Cells["DgvColC_SIZE"]));
                     jobnos = jobnos.Replace("[@current@]", GetValue(row.Cells["DgvColR01_AMPS"]));
                     jobnos = jobnos.Replace("[@discharge@]", GetValue(row.Cells["DgvColDISCHARGE"]));
-                    jobnos = jobnos.Replace("[@rated@]",GetValue( row.Cells["DgvColHead"]));
-                    jobnos = jobnos.Replace("[@range@]", GetValue( row.Cells["DgvColHead"]));
-                    jobnos = jobnos.Replace("[@over all efficency@]",GetValue( row.Cells["DgvColPerfomance"]));
+                    jobnos = jobnos.Replace("[@rated@]", GetValue(row.Cells["DgvColHead"]));
+                    jobnos = jobnos.Replace("[@range@]", GetValue(row.Cells["DgvColHead"]));
+                    jobnos = jobnos.Replace("[@over all efficency@]", GetValue(row.Cells["DgvColPerfomance"]));
                     //jobnos = jobnos.Replace("[@range@]", row.Cells["DgvColSerialNo"].Value.ToString());
                     //jobnos = jobnos.Replace("[@speed@]", row.Cells["DgvColSerialNo"].Value.ToString());
                     //jobnos = jobnos.Replace("[@over all efficency@]", row.Cells["DgvColSerialNo"].Value.ToString());
@@ -112,15 +112,9 @@ namespace CouthIntegration
 
         private string GetValue(DataGridViewCell cell)
         {
-            string retValue = string.Empty;
-
-            if (cell.Value != null)
-            {
-                retValue = cell.Value.ToString();
-            }
-            return retValue;
+            return Common.GetValue(cell);
         }
- 
+
 
     }
 }

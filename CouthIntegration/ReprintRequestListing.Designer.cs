@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CmbUnits = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.txtJobNo = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.DtTo = new System.Windows.Forms.DateTimePicker();
@@ -48,17 +50,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Grid = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.BtnAdd = new System.Windows.Forms.Button();
-            this.CmbUnits = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColReprintID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColRequestUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColApproved = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.DgvColApprovedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColApprovedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
@@ -89,6 +87,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(922, 100);
             this.panel1.TabIndex = 5;
+            // 
+            // CmbUnits
+            // 
+            this.CmbUnits.DisplayMember = "UnitName";
+            this.CmbUnits.FormattingEnabled = true;
+            this.CmbUnits.Location = new System.Drawing.Point(69, 74);
+            this.CmbUnits.Name = "CmbUnits";
+            this.CmbUnits.Size = new System.Drawing.Size(151, 21);
+            this.CmbUnits.TabIndex = 24;
+            this.CmbUnits.ValueMember = "UnitID";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(26, 13);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Unit";
             // 
             // txtJobNo
             // 
@@ -248,36 +265,37 @@
             this.Grid.AllowUserToDeleteRows = false;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DgvColSno,
+            this.DgvColReprintID,
             this.DgvColReprintNo,
             this.DgvColReprintDate,
             this.DgvColRequestUser,
-            this.DgvColApproved,
-            this.DgvColApprovedBy,
-            this.DgvColApprovedDate});
+            this.DgvColUnit});
             this.Grid.Location = new System.Drawing.Point(4, 111);
+            this.Grid.MultiSelect = false;
             this.Grid.Name = "Grid";
+            this.Grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.Grid.Size = new System.Drawing.Size(922, 323);
             this.Grid.TabIndex = 18;
             // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.btnEdit);
             this.panel2.Controls.Add(this.BtnAdd);
             this.panel2.Location = new System.Drawing.Point(4, 440);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(922, 34);
             this.panel2.TabIndex = 19;
             // 
-            // button1
+            // btnEdit
             // 
-            this.button1.Location = new System.Drawing.Point(852, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(62, 26);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "&Edit";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnEdit.Location = new System.Drawing.Point(852, 2);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(62, 26);
+            this.btnEdit.TabIndex = 15;
+            this.btnEdit.Text = "&View";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // BtnAdd
             // 
@@ -289,33 +307,14 @@
             this.BtnAdd.UseVisualStyleBackColor = true;
             this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
-            // CmbUnits
+            // DgvColReprintID
             // 
-            this.CmbUnits.DisplayMember = "UnitName";
-            this.CmbUnits.FormattingEnabled = true;
-            this.CmbUnits.Location = new System.Drawing.Point(69, 74);
-            this.CmbUnits.Name = "CmbUnits";
-            this.CmbUnits.Size = new System.Drawing.Size(151, 21);
-            this.CmbUnits.TabIndex = 24;
-            this.CmbUnits.ValueMember = "UnitID";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 77);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(26, 13);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "Unit";
-            // 
-            // DgvColSno
-            // 
-            this.DgvColSno.DataPropertyName = "Sno";
-            this.DgvColSno.Frozen = true;
-            this.DgvColSno.HeaderText = "Sno";
-            this.DgvColSno.Name = "DgvColSno";
-            this.DgvColSno.ReadOnly = true;
-            this.DgvColSno.Width = 60;
+            this.DgvColReprintID.DataPropertyName = "ReprintID";
+            this.DgvColReprintID.Frozen = true;
+            this.DgvColReprintID.HeaderText = "ID";
+            this.DgvColReprintID.Name = "DgvColReprintID";
+            this.DgvColReprintID.ReadOnly = true;
+            this.DgvColReprintID.Width = 60;
             // 
             // DgvColReprintNo
             // 
@@ -339,31 +338,12 @@
             this.DgvColRequestUser.ReadOnly = true;
             this.DgvColRequestUser.Width = 150;
             // 
-            // DgvColApproved
+            // DgvColUnit
             // 
-            this.DgvColApproved.DataPropertyName = "Approved";
-            this.DgvColApproved.HeaderText = "Approved";
-            this.DgvColApproved.Name = "DgvColApproved";
-            this.DgvColApproved.ReadOnly = true;
-            this.DgvColApproved.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvColApproved.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.DgvColApproved.Width = 80;
-            // 
-            // DgvColApprovedBy
-            // 
-            this.DgvColApprovedBy.DataPropertyName = "ApprovedByUser";
-            this.DgvColApprovedBy.HeaderText = "Approved By";
-            this.DgvColApprovedBy.Name = "DgvColApprovedBy";
-            this.DgvColApprovedBy.ReadOnly = true;
-            this.DgvColApprovedBy.Width = 150;
-            // 
-            // DgvColApprovedDate
-            // 
-            this.DgvColApprovedDate.DataPropertyName = "ApprovedDate";
-            this.DgvColApprovedDate.HeaderText = "Approved Date";
-            this.DgvColApprovedDate.Name = "DgvColApprovedDate";
-            this.DgvColApprovedDate.ReadOnly = true;
-            this.DgvColApprovedDate.Width = 150;
+            this.DgvColUnit.DataPropertyName = "Unit";
+            this.DgvColUnit.HeaderText = "Unit";
+            this.DgvColUnit.Name = "DgvColUnit";
+            this.DgvColUnit.ReadOnly = true;
             // 
             // ReprintRequestListing
             // 
@@ -411,16 +391,14 @@
         private System.Windows.Forms.DataGridView Grid;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button BtnAdd;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.TextBox txtJobNo;
         private System.Windows.Forms.ComboBox CmbUnits;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColSno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintID;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRequestUser;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColApproved;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColApprovedBy;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColApprovedDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColUnit;
     }
 }

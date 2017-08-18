@@ -14,7 +14,7 @@ public partial class ReprintData : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        bool approved = false;
+        Int16 approved = -1;
         string jobNo = string.Empty;
         string serialNoFrom = string.Empty;
         string serialNoTo = string.Empty;
@@ -22,6 +22,7 @@ public partial class ReprintData : System.Web.UI.Page
         Int64 rePrintID = 0;
         DateTime FromDt = DateTime.MinValue;
         DateTime ToDt = DateTime.MinValue;
+        Int64 unitID = 0;
         if (Request.QueryString["JobNo"] != null)
         {
             jobNo = Request.QueryString["JobNo"].ToString();
@@ -38,9 +39,9 @@ public partial class ReprintData : System.Web.UI.Page
         {
             Int64.TryParse(Request.QueryString["OracleUnitID"].ToString(), out oracleUnitID);
         }
-        if (Request.QueryString["Approved"] != null)
+        if (Request.QueryString["approved"] != null)
         {
-            bool.TryParse(Request.QueryString["Approved"].ToString(), out approved);
+            Int16.TryParse(Request.QueryString["approved"].ToString(), out approved);
         }
         if (Request.QueryString["FromDt"] != null)
         {
@@ -54,11 +55,15 @@ public partial class ReprintData : System.Web.UI.Page
         {
             Int64.TryParse(Request.QueryString["reprintid"].ToString(), out rePrintID);
         }
+        if (Request.QueryString["UnitID"] != null)
+        {
+            Int64.TryParse(Request.QueryString["UnitID"].ToString(), out unitID);
+        }
         if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "save")
         {
             string ReprintNo = string.Empty;
             Int64 requestUserId = 0;
-            Int64 unitID = 0;
+
             if (Request.QueryString["ReprintNo"] != null)
             {
                 ReprintNo = Request.QueryString["ReprintNo"].ToString();
@@ -67,10 +72,7 @@ public partial class ReprintData : System.Web.UI.Page
             {
                 Int64.TryParse(Request.QueryString["RequestUserID"].ToString(), out requestUserId);
             }
-            if (Request.QueryString["UnitID"] != null)
-            {
-                Int64.TryParse(Request.QueryString["UnitID"].ToString(), out unitID);
-            }
+
             string data = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
             SaveData(ReprintNo, requestUserId, unitID, data);
         }
@@ -86,9 +88,13 @@ public partial class ReprintData : System.Web.UI.Page
         {
             GenerateRequestMaster(jobNo, serialNoFrom, serialNoTo, oracleUnitID, rePrintID, FromDt, ToDt);
         }
+        else if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "detail")
+        {
+            GenerateRequestDetails(jobNo, serialNoFrom, serialNoTo, unitID, rePrintID, FromDt, ToDt, approved);
+        }
         else
         {
-            ReturnReprintable(jobNo, serialNoFrom, serialNoTo, oracleUnitID, approved);
+            ReturnReprintable(jobNo, serialNoFrom, serialNoTo, unitID);
         }
     }
 
@@ -154,22 +160,25 @@ public partial class ReprintData : System.Web.UI.Page
                 parameters.Add("ToDt", Todt, SqlDbType.DateTime);
             }
             string connectionstring = Common.GetSQLConnectionString();
-            IDataReader idr = SqlHelper.ExecuteReader(connectionstring, "PG_Get_ReprintMasters", CommandType.StoredProcedure, parameters);
+            IDataReader idr = SqlHelper.ExecuteReader(connectionstring, "PG_Get_Reprint", CommandType.StoredProcedure, parameters);
             SqlDataReaderHelper helper = new SqlDataReaderHelper(idr);
+            Int64 sno = 1;
             while (idr.Read())
             {
                 ReprintMaster master = new ReprintMaster();
+                master.Sno = sno;
                 master.ReprintID = helper.GetInt64("ReprintID");
                 master.ReprintNo = helper.GetString("ReprintNo");
                 master.RequestDate = helper.GetDateTime("ReprintDate");
                 master.RequestUserID = helper.GetInt64("RequestUserID");
                 master.RequestUser = helper.GetString("UserName");
-                master.Approved = helper.GetBoolean("Approved");
-                master.ApprovedBy = helper.GetInt64("ApprovedBy");
-                master.ApprovedDate = helper.GetDateTime("ApprovedDate");
-                master.ApprovedByUser = helper.GetString("ApprovedByUser");
+                master.Unit = helper.GetString("Unit");
+                master.UnitID = helper.GetInt64("UnitID");
 
                 reprintMasters.Add(master);
+
+                sno += 1;
+
             }
 
             json = JsonConvert.SerializeObject(reprintMasters);
@@ -186,7 +195,95 @@ public partial class ReprintData : System.Web.UI.Page
         }
     }
 
-    private void ReturnReprintable(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID, bool approved)
+    private void GenerateRequestDetails(string jobno, string SerialNoFrom, string SerialNoTo, Int64 unitID, Int64 reprintID, DateTime FromDt, DateTime Todt, Int16 approved)
+    {
+        string json = string.Empty;
+        List<ReprintMaster> reprintMasters = new List<ReprintMaster>();
+        try
+        {
+            ParameterList parameters = new ParameterList();
+            if (unitID > 0)
+            {
+                parameters.Add("UnitId", unitID, SqlDbType.BigInt);
+            }
+            if (!string.IsNullOrEmpty(jobno))
+            {
+                parameters.Add("Jobno", jobno, SqlDbType.VarChar);
+            }
+            if (!string.IsNullOrEmpty(SerialNoFrom))
+            {
+                parameters.Add("SerialNoFrom", SerialNoFrom, SqlDbType.VarChar);
+            }
+            if (!string.IsNullOrEmpty(SerialNoTo))
+            {
+                parameters.Add("SerialNoTo", SerialNoTo, SqlDbType.VarChar);
+            }
+            if (reprintID > 0)
+            {
+                parameters.Add("reprintID", reprintID, SqlDbType.BigInt);
+            }
+            if (DateTime.MinValue != FromDt)
+            {
+                parameters.Add("FromDt", FromDt, SqlDbType.DateTime);
+            }
+            if (DateTime.MinValue != Todt)
+            {
+                parameters.Add("ToDt", Todt, SqlDbType.DateTime);
+            }
+            parameters.Add("approvalPending", approved, SqlDbType.SmallInt);
+
+
+            string connectionstring = Common.GetSQLConnectionString();
+            IDataReader idr = SqlHelper.ExecuteReader(connectionstring, "PG_Get_Reprint", CommandType.StoredProcedure, parameters);
+            SqlDataReaderHelper helper = new SqlDataReaderHelper(idr);
+
+
+            idr.NextResult();
+            List<ReprintDetails> reprintDetails = new List<ReprintDetails>();
+            Int64 sno = 1;
+            while (idr.Read())
+            {
+                ReprintDetails detail = new ReprintDetails();
+                detail.Sno = sno;
+                detail.RequestDate = helper.GetDateTime("ReprintDate");
+                detail.RequestUserID = helper.GetInt64("RequestUserID");
+                detail.RequestUser = helper.GetString("UserName");
+                detail.ApprovedStatus = helper.GetString("ApprovedStatus");
+                detail.ApprovedDate = helper.GetDateTime("ApprovedDate");
+                detail.ApprovedByUser = helper.GetString("ApprovedByUser");
+                detail.UnitID = helper.GetInt64("UnitID");
+                detail.Description = helper.GetString("Description");
+                detail.Item_Code = helper.GetString("Item_Code");
+                detail.Jobnumber = helper.GetString("Jobnumber");
+                detail.ReprintDetailsID = helper.GetInt64("ReprintDetailsID");
+                detail.ReprintID = helper.GetInt64("ReprintID");
+                detail.ReprintNo = helper.GetString("ReprintNo");
+                detail.Serial_Number = helper.GetString("Serial_Number");
+                detail.ApprovedStatus = helper.GetString("ApprovedStatus");
+                detail.ApprovedBy = helper.GetInt64("ApprovedBy");
+                detail.ApprovedDate = helper.GetDateTime("ApprovedDate");
+                detail.ApprovedByUser = helper.GetString("ApprovedByUser");
+                detail.ApprovalRemarks = helper.GetString("ApprovalRemarks");
+                reprintDetails.Add(detail);
+
+                sno += 1;
+            }
+
+            json = JsonConvert.SerializeObject(reprintDetails);
+        }
+        catch (Exception ex)
+        {
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            Response.StatusDescription = ex.Message;
+        }
+        finally
+        {
+            Response.Write(json);
+            Response.End();
+        }
+    }
+
+    private void ReturnReprintable(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
     {
         string json = string.Empty;
         try

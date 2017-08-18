@@ -25,6 +25,26 @@ namespace CouthIntegration
             {
                 GenerateRequestNo();
             }
+            else
+            {
+                LoadEditDetails(ReprintID);
+                BtnSave.Enabled = false;
+            }
+        }
+
+        private void LoadEditDetails(Int64 reprintID)
+        {
+            List<ReprintMaster> reprintMaster = Common.GetReprintMaster("", "", "", 0, reprintID, DateTime.MinValue, DateTime.MinValue);
+            if (reprintMaster.Count > 0)
+            {
+                txtRequestNo.Text = reprintMaster[0].ReprintNo;
+                CmbUnits.SelectedValue = reprintMaster[0].UnitID;
+                CmbUnits.Enabled = false;
+            }
+
+            List<ReprintDetails> details = Common.GetReprintDetails("", "", "", 0, reprintID, DateTime.MinValue, DateTime.MinValue);
+            Grid.AutoGenerateColumns = false;
+            Grid.DataSource = details;
         }
 
         private void GenerateRequestNo()
@@ -103,7 +123,7 @@ namespace CouthIntegration
                 CmbUnits.Focus();
                 return false;
             }
-            return true;            
+            return true;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -126,48 +146,8 @@ namespace CouthIntegration
                 }
 
                 Grid.AutoGenerateColumns = false;
-                Grid.DataSource = GetReprintRequest(txtJobNo.Text, txtSerialNoFrom.Text, txtSerialNoTo.Text, oracleUnitID);
+                Grid.DataSource = Common.GetReprintableRequest(txtJobNo.Text, txtSerialNoFrom.Text, txtSerialNoTo.Text, oracleUnitID);
             }
-        }
-
-        public List<Reprintable> GetReprintRequest(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
-        {
-            string webserviceURL = Common.GetWebServiceURL();
-            webserviceURL = string.Concat(webserviceURL, "Reprint.aspx");
-            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&oracleUnitID={3}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID);
-            webserviceURL = string.Concat(webserviceURL, "?Approved=0", qs);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
-            request.Method = "GET";
-            request.ContentType = "application/x-www-form-urlencoded";
-            //StreamWriter requestWriter = new StreamWriter(request.GetRequestStream());
-            //requestWriter.Write(postString);
-            //requestWriter.Close();
-            WebResponse response = null;
-            string responseString = string.Empty;
-            List<Reprintable> lstReprint = null;
-            try
-            {
-                response = request.GetResponse();
-                using (Stream stream = response.GetResponseStream())
-                {
-                    StreamReader sr = new StreamReader(stream);
-                    responseString = sr.ReadToEnd();
-                }
-
-                lstReprint = JsonConvert.DeserializeObject<List<Reprintable>>(responseString);
-            }
-            catch (WebException ex)
-            {
-                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
-                {
-                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "Reprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            return lstReprint;
         }
 
         private void BtnSave_Click(object sender, EventArgs e)

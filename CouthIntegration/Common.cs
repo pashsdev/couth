@@ -101,7 +101,7 @@ namespace CouthIntegration
             WebResponse response = null;
             string responseString = string.Empty;
             List<Template> templates = null;
-            
+
             try
             {
                 response = request.GetResponse();
@@ -112,7 +112,7 @@ namespace CouthIntegration
                 }
 
                 templates = JsonConvert.DeserializeObject<List<Template>>(responseString);
-                
+
             }
             catch (WebException ex)
             {
@@ -146,6 +146,133 @@ namespace CouthIntegration
             }
 
             return tmpfrm;
+        }
+
+        public static List<ReprintMaster> GetReprintMaster(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 unitID, Int64 ReprintID, DateTime FromDt, DateTime ToDate)
+        {
+            string webserviceURL = Common.GetWebServiceURL();
+            webserviceURL = string.Concat(webserviceURL, "Reprint.aspx");
+            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&unitID={3}&reprintid={4}&FromDt={5}&ToDate={6}"
+                , Jobno, SerialNoFrom, SerialNoTo, unitID, ReprintID, FromDt, ToDate);
+            webserviceURL = string.Concat(webserviceURL, "?cmd=listing", qs);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
+            request.Method = "GET";
+            request.ContentType = "application/x-www-form-urlencoded";
+            WebResponse response = null;
+            string responseString = string.Empty;
+            List<ReprintMaster> lstReprint = null;
+            try
+            {
+                response = request.GetResponse();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader sr = new StreamReader(stream);
+                    responseString = sr.ReadToEnd();
+                }
+
+                lstReprint = JsonConvert.DeserializeObject<List<ReprintMaster>>(responseString);
+            }
+            catch (WebException ex)
+            {
+                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
+                {
+                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "Reprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return lstReprint;
+        }
+
+        public static List<ReprintDetails> GetReprintDetails(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 unitID, Int64 ReprintID, DateTime FromDt, DateTime ToDate, Int16 approved = -1)
+        {
+            string webserviceURL = Common.GetWebServiceURL();
+            webserviceURL = string.Concat(webserviceURL, "Reprint.aspx");
+            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&unitID={3}&reprintid={4}&FromDt={5}&ToDate={6}&approved={7}"
+                , Jobno, SerialNoFrom, SerialNoTo, unitID, ReprintID, FromDt, ToDate, approved);
+            webserviceURL = string.Concat(webserviceURL, "?cmd=detail", qs);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
+            request.Method = "GET";
+            request.ContentType = "application/x-www-form-urlencoded";
+            WebResponse response = null;
+            string responseString = string.Empty;
+            List<ReprintDetails> lstReprint = null;
+            try
+            {
+                response = request.GetResponse();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader sr = new StreamReader(stream);
+                    responseString = sr.ReadToEnd();
+                }
+
+                lstReprint = JsonConvert.DeserializeObject<List<ReprintDetails>>(responseString);
+            }
+            catch (WebException ex)
+            {
+                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
+                {
+                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "Reprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return lstReprint;
+        }
+
+        public static List<Reprintable> GetReprintableRequest(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
+        {
+            string webserviceURL = Common.GetWebServiceURL();
+            webserviceURL = string.Concat(webserviceURL, "Reprint.aspx");
+            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&oracleUnitID={3}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID);
+            webserviceURL = string.Concat(webserviceURL, "?Approved=0", qs);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
+            request.Method = "GET";
+            request.ContentType = "application/x-www-form-urlencoded";
+            //StreamWriter requestWriter = new StreamWriter(request.GetRequestStream());
+            //requestWriter.Write(postString);
+            //requestWriter.Close();
+            WebResponse response = null;
+            string responseString = string.Empty;
+            List<Reprintable> lstReprint = null;
+            try
+            {
+                response = request.GetResponse();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader sr = new StreamReader(stream);
+                    responseString = sr.ReadToEnd();
+                }
+
+                lstReprint = JsonConvert.DeserializeObject<List<Reprintable>>(responseString);
+            }
+            catch (WebException ex)
+            {
+                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
+                {
+                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "Reprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return lstReprint;
+        }
+
+        public static string GetValue(DataGridViewCell cell)
+        {
+            string retValue = string.Empty;
+
+            if (cell.Value != null)
+            {
+                retValue = cell.Value.ToString();
+            }
+            return retValue;
         }
     }
 }
