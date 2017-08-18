@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtJobNo = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.DtTo = new System.Windows.Forms.DateTimePicker();
+            this.DtFrom = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CmbRequestNo = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtSerialNoTo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -40,12 +46,12 @@
             this.RadJobno = new System.Windows.Forms.RadioButton();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.CmbRequestNo = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.DtFrom = new System.Windows.Forms.DateTimePicker();
-            this.DtTo = new System.Windows.Forms.DateTimePicker();
-            this.label7 = new System.Windows.Forms.Label();
             this.Grid = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.BtnAdd = new System.Windows.Forms.Button();
+            this.CmbUnits = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,10 +59,6 @@
             this.DgvColApproved = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.DgvColApprovedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColApprovedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.BtnAdd = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtJobNo = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
@@ -66,6 +68,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.CmbUnits);
+            this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.txtJobNo);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.DtTo);
@@ -83,8 +87,59 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(5, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(922, 75);
+            this.panel1.Size = new System.Drawing.Size(922, 100);
             this.panel1.TabIndex = 5;
+            // 
+            // txtJobNo
+            // 
+            this.txtJobNo.Location = new System.Drawing.Point(69, 45);
+            this.txtJobNo.Name = "txtJobNo";
+            this.txtJobNo.Size = new System.Drawing.Size(151, 20);
+            this.txtJobNo.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(739, 49);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(20, 13);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "To";
+            // 
+            // DtTo
+            // 
+            this.DtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtTo.Location = new System.Drawing.Point(765, 45);
+            this.DtTo.Name = "DtTo";
+            this.DtTo.Size = new System.Drawing.Size(148, 20);
+            this.DtTo.TabIndex = 20;
+            // 
+            // DtFrom
+            // 
+            this.DtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtFrom.Location = new System.Drawing.Point(578, 46);
+            this.DtFrom.Name = "DtFrom";
+            this.DtFrom.Size = new System.Drawing.Size(149, 20);
+            this.DtFrom.TabIndex = 19;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(507, 48);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "From";
+            // 
+            // CmbRequestNo
+            // 
+            this.CmbRequestNo.DisplayMember = "ReprintNo";
+            this.CmbRequestNo.FormattingEnabled = true;
+            this.CmbRequestNo.Location = new System.Drawing.Point(578, 17);
+            this.CmbRequestNo.Name = "CmbRequestNo";
+            this.CmbRequestNo.Size = new System.Drawing.Size(254, 21);
+            this.CmbRequestNo.TabIndex = 17;
+            this.CmbRequestNo.ValueMember = "ReprintID";
             // 
             // label5
             // 
@@ -153,13 +208,13 @@
             this.RadSerialNo.Name = "RadSerialNo";
             this.RadSerialNo.Size = new System.Drawing.Size(68, 17);
             this.RadSerialNo.TabIndex = 7;
-            this.RadSerialNo.TabStop = true;
             this.RadSerialNo.Text = "Serial No";
             this.RadSerialNo.UseVisualStyleBackColor = true;
             // 
             // RadJobno
             // 
             this.RadJobno.AutoSize = true;
+            this.RadJobno.Checked = true;
             this.RadJobno.Location = new System.Drawing.Point(6, 12);
             this.RadJobno.Name = "RadJobno";
             this.RadJobno.Size = new System.Drawing.Size(59, 17);
@@ -176,6 +231,7 @@
             this.BtnSearch.TabIndex = 4;
             this.BtnSearch.Text = "Search";
             this.BtnSearch.UseVisualStyleBackColor = true;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // label1
             // 
@@ -185,48 +241,6 @@
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Search By";
-            // 
-            // CmbRequestNo
-            // 
-            this.CmbRequestNo.FormattingEnabled = true;
-            this.CmbRequestNo.Location = new System.Drawing.Point(578, 17);
-            this.CmbRequestNo.Name = "CmbRequestNo";
-            this.CmbRequestNo.Size = new System.Drawing.Size(254, 21);
-            this.CmbRequestNo.TabIndex = 17;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(507, 48);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(30, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "From";
-            // 
-            // DtFrom
-            // 
-            this.DtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtFrom.Location = new System.Drawing.Point(578, 46);
-            this.DtFrom.Name = "DtFrom";
-            this.DtFrom.Size = new System.Drawing.Size(149, 20);
-            this.DtFrom.TabIndex = 19;
-            // 
-            // DtTo
-            // 
-            this.DtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtTo.Location = new System.Drawing.Point(765, 45);
-            this.DtTo.Name = "DtTo";
-            this.DtTo.Size = new System.Drawing.Size(148, 20);
-            this.DtTo.TabIndex = 20;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(739, 48);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(20, 13);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "To";
             // 
             // Grid
             // 
@@ -241,10 +255,58 @@
             this.DgvColApproved,
             this.DgvColApprovedBy,
             this.DgvColApprovedDate});
-            this.Grid.Location = new System.Drawing.Point(4, 86);
+            this.Grid.Location = new System.Drawing.Point(4, 111);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(922, 311);
+            this.Grid.Size = new System.Drawing.Size(922, 323);
             this.Grid.TabIndex = 18;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.BtnAdd);
+            this.panel2.Location = new System.Drawing.Point(4, 440);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(922, 34);
+            this.panel2.TabIndex = 19;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(852, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(62, 26);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "&Edit";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // BtnAdd
+            // 
+            this.BtnAdd.Location = new System.Drawing.Point(784, 2);
+            this.BtnAdd.Name = "BtnAdd";
+            this.BtnAdd.Size = new System.Drawing.Size(62, 26);
+            this.BtnAdd.TabIndex = 14;
+            this.BtnAdd.Text = "&Add";
+            this.BtnAdd.UseVisualStyleBackColor = true;
+            this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
+            // 
+            // CmbUnits
+            // 
+            this.CmbUnits.DisplayMember = "UnitName";
+            this.CmbUnits.FormattingEnabled = true;
+            this.CmbUnits.Location = new System.Drawing.Point(69, 74);
+            this.CmbUnits.Name = "CmbUnits";
+            this.CmbUnits.Size = new System.Drawing.Size(151, 21);
+            this.CmbUnits.TabIndex = 24;
+            this.CmbUnits.ValueMember = "UnitID";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(26, 13);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Unit";
             // 
             // DgvColSno
             // 
@@ -264,7 +326,7 @@
             // 
             // DgvColReprintDate
             // 
-            this.DgvColReprintDate.DataPropertyName = "ReprintDate";
+            this.DgvColReprintDate.DataPropertyName = "RequestDate";
             this.DgvColReprintDate.HeaderText = "Date";
             this.DgvColReprintDate.Name = "DgvColReprintDate";
             this.DgvColReprintDate.ReadOnly = true;
@@ -289,7 +351,7 @@
             // 
             // DgvColApprovedBy
             // 
-            this.DgvColApprovedBy.DataPropertyName = "ApprovedBy";
+            this.DgvColApprovedBy.DataPropertyName = "ApprovedByUser";
             this.DgvColApprovedBy.HeaderText = "Approved By";
             this.DgvColApprovedBy.Name = "DgvColApprovedBy";
             this.DgvColApprovedBy.ReadOnly = true;
@@ -303,46 +365,11 @@
             this.DgvColApprovedDate.ReadOnly = true;
             this.DgvColApprovedDate.Width = 150;
             // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.button1);
-            this.panel2.Controls.Add(this.BtnAdd);
-            this.panel2.Location = new System.Drawing.Point(4, 403);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(922, 34);
-            this.panel2.TabIndex = 19;
-            // 
-            // BtnAdd
-            // 
-            this.BtnAdd.Location = new System.Drawing.Point(784, 2);
-            this.BtnAdd.Name = "BtnAdd";
-            this.BtnAdd.Size = new System.Drawing.Size(62, 26);
-            this.BtnAdd.TabIndex = 14;
-            this.BtnAdd.Text = "&Add";
-            this.BtnAdd.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(852, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(62, 26);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "&Edit";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // txtJobNo
-            // 
-            this.txtJobNo.Location = new System.Drawing.Point(69, 45);
-            this.txtJobNo.Name = "txtJobNo";
-            this.txtJobNo.Size = new System.Drawing.Size(151, 20);
-            this.txtJobNo.TabIndex = 22;
-            // 
             // ReprintRequestListing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(931, 441);
+            this.ClientSize = new System.Drawing.Size(931, 480);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel1);
@@ -350,6 +377,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ReprintRequestListing";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Reprint Request Listing";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -381,6 +409,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CmbRequestNo;
         private System.Windows.Forms.DataGridView Grid;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button BtnAdd;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtJobNo;
+        private System.Windows.Forms.ComboBox CmbUnits;
+        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColSno;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColReprintDate;
@@ -388,9 +422,5 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColApproved;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColApprovedBy;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColApprovedDate;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button BtnAdd;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtJobNo;
     }
 }

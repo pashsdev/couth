@@ -68,7 +68,7 @@ namespace CouthIntegration
 
         void menuRequest_Click(object sender, EventArgs e)
         {
-            ReprintRequest request = new ReprintRequest();
+            ReprintRequestListing request = new ReprintRequestListing();
             request.ShowDialog();
         }
 

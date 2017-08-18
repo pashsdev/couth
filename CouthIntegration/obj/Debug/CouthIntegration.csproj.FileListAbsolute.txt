@@ -60,3 +60,4 @@ C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.csproj
 C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.TrustInfo.xml
 C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.exe.manifest
 C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.application
+C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.ReprintRequestListing.resources

@@ -14,6 +14,7 @@ namespace CouthIntegration
 {
     public class Common
     {
+        public static Int64 UserID { get; set; }
         public static string GetWebServiceURL()
         {
             string webserviceURL = string.Empty;

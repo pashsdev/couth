@@ -14,14 +14,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="CouthIntegration.exe.manifest" size="7505">
+    <dependentAssembly dependencyType="install" codebase="CouthIntegration.exe.manifest" size="7506">
       <assemblyIdentity name="CouthIntegration.exe" version="1.0.0.18" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>QNNxFQ0BMsjQaBCU2/aSnWNlyhw=</dsig:DigestValue>
+        <dsig:DigestValue>B669/X2U8oS/Vz693SVBjaopLVQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

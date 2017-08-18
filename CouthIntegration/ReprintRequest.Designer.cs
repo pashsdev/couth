@@ -29,19 +29,17 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtJobNo = new System.Windows.Forms.TextBox();
+            this.txtRequestNo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ChkMarkAll = new System.Windows.Forms.CheckBox();
             this.ChkMarkEven = new System.Windows.Forms.CheckBox();
             this.ChkMarkOdd = new System.Windows.Forms.CheckBox();
-            this.BtnCancel = new System.Windows.Forms.Button();
-            this.BtnClear = new System.Windows.Forms.Button();
             this.txtSerialNoTo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtSerialNoFrom = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.CmbJobNo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.RadSerialNo = new System.Windows.Forms.RadioButton();
@@ -51,6 +49,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.BtnSave = new System.Windows.Forms.Button();
             this.Grid = new System.Windows.Forms.DataGridView();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CmbUnits = new System.Windows.Forms.ComboBox();
             this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColItemCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColJobno = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,16 +69,16 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.CmbUnits);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.txtJobNo);
+            this.panel1.Controls.Add(this.txtRequestNo);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.BtnCancel);
-            this.panel1.Controls.Add(this.BtnClear);
             this.panel1.Controls.Add(this.txtSerialNoTo);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.txtSerialNoFrom);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.CmbJobNo);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.BtnSearch);
@@ -88,12 +88,20 @@
             this.panel1.Size = new System.Drawing.Size(922, 75);
             this.panel1.TabIndex = 4;
             // 
-            // textBox1
+            // txtJobNo
             // 
-            this.textBox1.Location = new System.Drawing.Point(590, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(187, 20);
-            this.textBox1.TabIndex = 17;
+            this.txtJobNo.Location = new System.Drawing.Point(56, 45);
+            this.txtJobNo.Name = "txtJobNo";
+            this.txtJobNo.Size = new System.Drawing.Size(164, 20);
+            this.txtJobNo.TabIndex = 18;
+            // 
+            // txtRequestNo
+            // 
+            this.txtRequestNo.Location = new System.Drawing.Point(590, 18);
+            this.txtRequestNo.Name = "txtRequestNo";
+            this.txtRequestNo.ReadOnly = true;
+            this.txtRequestNo.Size = new System.Drawing.Size(187, 20);
+            this.txtRequestNo.TabIndex = 17;
             // 
             // label5
             // 
@@ -145,24 +153,6 @@
             this.ChkMarkOdd.Text = "Mark Odd";
             this.ChkMarkOdd.UseVisualStyleBackColor = true;
             // 
-            // BtnCancel
-            // 
-            this.BtnCancel.Location = new System.Drawing.Point(510, 45);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
-            this.BtnCancel.TabIndex = 15;
-            this.BtnCancel.Text = "Reset";
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            // 
-            // BtnClear
-            // 
-            this.BtnClear.Location = new System.Drawing.Point(593, 45);
-            this.BtnClear.Name = "BtnClear";
-            this.BtnClear.Size = new System.Drawing.Size(75, 23);
-            this.BtnClear.TabIndex = 13;
-            this.BtnClear.Text = "Clear";
-            this.BtnClear.UseVisualStyleBackColor = true;
-            // 
             // txtSerialNoTo
             // 
             this.txtSerialNoTo.Location = new System.Drawing.Point(309, 46);
@@ -195,14 +185,6 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Serial No From";
             // 
-            // CmbJobNo
-            // 
-            this.CmbJobNo.FormattingEnabled = true;
-            this.CmbJobNo.Location = new System.Drawing.Point(69, 45);
-            this.CmbJobNo.Name = "CmbJobNo";
-            this.CmbJobNo.Size = new System.Drawing.Size(148, 21);
-            this.CmbJobNo.TabIndex = 8;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -229,13 +211,13 @@
             this.RadSerialNo.Name = "RadSerialNo";
             this.RadSerialNo.Size = new System.Drawing.Size(68, 17);
             this.RadSerialNo.TabIndex = 7;
-            this.RadSerialNo.TabStop = true;
             this.RadSerialNo.Text = "Serial No";
             this.RadSerialNo.UseVisualStyleBackColor = true;
             // 
             // RadJobno
             // 
             this.RadJobno.AutoSize = true;
+            this.RadJobno.Checked = true;
             this.RadJobno.Location = new System.Drawing.Point(6, 12);
             this.RadJobno.Name = "RadJobno";
             this.RadJobno.Size = new System.Drawing.Size(59, 17);
@@ -301,6 +283,25 @@
             this.Grid.Size = new System.Drawing.Size(922, 284);
             this.Grid.TabIndex = 17;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(507, 50);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(26, 13);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Unit";
+            // 
+            // CmbUnits
+            // 
+            this.CmbUnits.DisplayMember = "UnitName";
+            this.CmbUnits.FormattingEnabled = true;
+            this.CmbUnits.Location = new System.Drawing.Point(539, 49);
+            this.CmbUnits.Name = "CmbUnits";
+            this.CmbUnits.Size = new System.Drawing.Size(129, 21);
+            this.CmbUnits.TabIndex = 20;
+            this.CmbUnits.ValueMember = "UnitID";
+            // 
             // DgvColSno
             // 
             this.DgvColSno.DataPropertyName = "Sno";
@@ -312,7 +313,7 @@
             // 
             // DgvColItemCode
             // 
-            this.DgvColItemCode.DataPropertyName = "Product";
+            this.DgvColItemCode.DataPropertyName = "Item_Code";
             this.DgvColItemCode.HeaderText = "ItemCode";
             this.DgvColItemCode.Name = "DgvColItemCode";
             this.DgvColItemCode.ReadOnly = true;
@@ -328,7 +329,7 @@
             // 
             // DgvColDesc
             // 
-            this.DgvColDesc.DataPropertyName = "ProductDesc";
+            this.DgvColDesc.DataPropertyName = "Description";
             this.DgvColDesc.HeaderText = "Prod. Desc";
             this.DgvColDesc.Name = "DgvColDesc";
             this.DgvColDesc.ReadOnly = true;
@@ -336,7 +337,7 @@
             // 
             // DgvColSerialNo
             // 
-            this.DgvColSerialNo.DataPropertyName = "SerialNo";
+            this.DgvColSerialNo.DataPropertyName = "Serial_Number";
             this.DgvColSerialNo.HeaderText = "Serial No";
             this.DgvColSerialNo.Name = "DgvColSerialNo";
             this.DgvColSerialNo.ReadOnly = true;
@@ -394,24 +395,24 @@
         private System.Windows.Forms.CheckBox ChkMarkAll;
         private System.Windows.Forms.CheckBox ChkMarkEven;
         private System.Windows.Forms.CheckBox ChkMarkOdd;
-        private System.Windows.Forms.Button BtnCancel;
-        private System.Windows.Forms.Button BtnClear;
         private System.Windows.Forms.TextBox txtSerialNoTo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtSerialNoFrom;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox CmbJobNo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton RadSerialNo;
         private System.Windows.Forms.RadioButton RadJobno;
         private System.Windows.Forms.Button BtnSearch;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtRequestNo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.DataGridView Grid;
+        private System.Windows.Forms.TextBox txtJobNo;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox CmbUnits;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColSno;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColItemCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColJobno;

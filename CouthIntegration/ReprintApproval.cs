@@ -38,7 +38,7 @@ namespace CouthIntegration
             Grid.DataSource = GetReprintRequest();
         }
 
-        public List<Reprint> GetReprintRequest()
+        public List<Reprintable> GetReprintRequest()
         {
             string webserviceURL = Common.GetWebServiceURL();
             webserviceURL = string.Concat(webserviceURL, "ReprintApproval.aspx?Approved=0");
@@ -50,7 +50,7 @@ namespace CouthIntegration
             //requestWriter.Close();
             WebResponse response = null;
             string responseString = string.Empty;
-            List<Reprint> lstReprint = null;
+            List<Reprintable> lstReprint = null;
             try
             {
                 response = request.GetResponse();
@@ -60,7 +60,7 @@ namespace CouthIntegration
                     responseString = sr.ReadToEnd();
                 }
 
-                lstReprint = JsonConvert.DeserializeObject<List<Reprint>>(responseString);
+                lstReprint = JsonConvert.DeserializeObject<List<Reprintable>>(responseString);
             }
             catch (WebException ex)
             {

@@ -43,6 +43,7 @@ namespace CouthIntegration
                     }
                 }
 
+                Common.UserID = user.UserID;
                 Main main = new Main();
                 main.Show();
                 if (frmlogin != null)
