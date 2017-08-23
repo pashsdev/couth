@@ -36,11 +36,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.BtnLogin = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.picPassword = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPassword)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.picPassword);
+            this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.LblVersion);
             this.groupBox1.Controls.Add(this.lnkChangePassword);
             this.groupBox1.Controls.Add(this.txtPassword);
@@ -137,12 +143,31 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "User Name";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Image = global::CouthIntegration.Properties.Resources.User;
+            this.pictureBox1.Location = new System.Drawing.Point(119, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(31, 34);
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
+            // 
+            // picPassword
+            // 
+            this.picPassword.Image = global::CouthIntegration.Properties.Resources.Unlock;
+            this.picPassword.Location = new System.Drawing.Point(119, 62);
+            this.picPassword.Name = "picPassword";
+            this.picPassword.Size = new System.Drawing.Size(31, 31);
+            this.picPassword.TabIndex = 9;
+            this.picPassword.TabStop = false;
+            // 
             // Login
             // 
             this.AcceptButton = this.BtnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 197);
+            this.ClientSize = new System.Drawing.Size(601, 186);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -155,6 +180,8 @@
             this.Load += new System.EventHandler(this.Login_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPassword)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -169,6 +196,8 @@
         private System.Windows.Forms.Button BtnLogin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label LblVersion;
+        private System.Windows.Forms.PictureBox picPassword;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

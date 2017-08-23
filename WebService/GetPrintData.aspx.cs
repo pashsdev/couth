@@ -19,6 +19,8 @@ public partial class GetPrintData : System.Web.UI.Page
         string serialNoFrom = string.Empty;
         string serialNoTo = string.Empty;
         Int64 oracleUnitID = 0;
+        string code = string.Empty;
+
         if (Request.QueryString["JobNo"] != null)
         {
             jobNo = Request.QueryString["JobNo"].ToString();
@@ -35,6 +37,10 @@ public partial class GetPrintData : System.Web.UI.Page
         {
             Int64.TryParse(Request.QueryString["OracleUnitID"].ToString(), out oracleUnitID);
         }
+        if (Request.QueryString["code"] != null)
+        {
+            code = Request.QueryString["code"].ToString();
+        }
         if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "save")
         {
             string data = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
@@ -43,12 +49,12 @@ public partial class GetPrintData : System.Web.UI.Page
         }
         else
         {
-            PrintData(jobNo, serialNoFrom, serialNoTo, oracleUnitID);
+            PrintData(jobNo, serialNoFrom, serialNoTo, oracleUnitID, code);
         }
 
     }
 
-    private void PrintData(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
+    private void PrintData(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID, string code)
     {
         string json = string.Empty;
         try
@@ -82,6 +88,14 @@ public partial class GetPrintData : System.Web.UI.Page
             else
             {
                 parameters.Add("p_to_serial", DBNull.Value, OracleDbType.Varchar2);
+            }
+            if (!string.IsNullOrEmpty(code))
+            {
+                parameters.Add("code", code, OracleDbType.Varchar2);
+            }
+            else
+            {
+                parameters.Add("code", DBNull.Value, OracleDbType.Varchar2);
             }
             parameters.Add("cursor_", OracleDbType.RefCursor, ParameterDirection.Output);
 
@@ -156,7 +170,7 @@ public partial class GetPrintData : System.Web.UI.Page
             }
 
             OracleHelper.ExecuteNonQuery(connectionString, query, CommandType.StoredProcedure, parameters, -1);
-            
+
         }
         catch (Exception ex)
         {
@@ -210,6 +224,8 @@ public partial class GetPrintData : System.Web.UI.Page
                 parameters.Add("Item_Code", searchRequest.Product, SqlDbType.VarChar);
                 parameters.Add("Description", searchRequest.ProductDesc, SqlDbType.VarChar);
                 parameters.Add("Printed", searchRequest.Printed, SqlDbType.Bit);
+                parameters.Add("ORG_ID", searchRequest.ORG_ID, SqlDbType.BigInt);
+
 
                 SqlHelper.ExecuteNonQuery(connectionstring, "PG_Save_SerialJobNumber", CommandType.StoredProcedure, parameters);
             }

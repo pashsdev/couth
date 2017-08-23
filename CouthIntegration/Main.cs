@@ -137,8 +137,12 @@ namespace CouthIntegration
         
         private void LoadMasterMenu()
         {
-            ToolStripMenuItem menuItem = new ToolStripMenuItem("Master");
-
+            ToolStripMenuItem menuItem = new ToolStripMenuItem();
+            //menuItem.BackgroundImageLayout = ImageLayout.Stretch;
+            //menuItem.BackgroundImage = imageList1.Images[1];
+            menuItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            menuItem.Image = imageList1.Images[2];
+            
             ToolStripMenuItem menuUsers = new ToolStripMenuItem("Users");
             ToolStripMenuItem menuUserCreation = new ToolStripMenuItem();
             menuUserCreation.Name = "mnuUserCreation";

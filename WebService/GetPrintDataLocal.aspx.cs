@@ -18,6 +18,8 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
         string serialNoFrom = string.Empty;
         string serialNoTo = string.Empty;
         Int64 oracleUnitID = 0;
+        string code = string.Empty;
+
         if (Request.QueryString["JobNo"] != null)
         {
             jobNo = Request.QueryString["JobNo"].ToString();
@@ -34,6 +36,10 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
         {
             Int64.TryParse(Request.QueryString["OracleUnitID"].ToString(), out oracleUnitID);
         }
+        if (Request.QueryString["code"] != null)
+        {
+            code = Request.QueryString["code"].ToString();
+        }
         if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "save")
         {
             string data = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
@@ -42,11 +48,11 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
         }
         else
         {
-            PrintData(jobNo, serialNoFrom, serialNoTo, oracleUnitID);
+            PrintData(jobNo, serialNoFrom, serialNoTo, oracleUnitID, code);
         }
     }
 
-    private void PrintData(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
+    private void PrintData(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID,string code)
     {
         string json = string.Empty;
         try
@@ -57,6 +63,7 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
             //string query = "SELECT sn.Item_name,e.Jobnumber,e.SERIAL_NUMBER,'tt' as TemplateName FROM cri_catalog_values e INNER JOIN cri_serial_numbers sn ON e.Item_Code=sn.Item_name ";
             //string query = "Select * From cri_catalog_values";
             parameters.Add("p_org_id", oracleUnitID, SqlDbType.BigInt);
+            parameters.Add("code", code, SqlDbType.VarChar);
             if (!string.IsNullOrEmpty(jobno))
             {
                 parameters.Add("Jobno", jobno, SqlDbType.VarChar);
@@ -149,6 +156,7 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
                 parameters.Add("Item_Code", searchRequest.Product, SqlDbType.VarChar);
                 parameters.Add("Description", searchRequest.ProductDesc, SqlDbType.VarChar);
                 parameters.Add("Printed", searchRequest.Printed, SqlDbType.Bit);
+                parameters.Add("ORG_ID", searchRequest.ORG_ID, SqlDbType.BigInt);
 
                 SqlHelper.ExecuteNonQuery(connectionstring, "PG_Save_SerialJobNumber", CommandType.StoredProcedure, parameters);
             }

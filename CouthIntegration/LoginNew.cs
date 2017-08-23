@@ -11,13 +11,11 @@ using System.Deployment.Application;
 using Newtonsoft.Json;
 using TransferDatas;
 
-
 namespace CouthIntegration
 {
-    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    public partial class Login : Form
+    public partial class LoginNew : Form
     {
-        public Login()
+        public LoginNew()
         {
             InitializeComponent();
             if (Debugger.IsAttached)
@@ -27,11 +25,11 @@ namespace CouthIntegration
             }
         }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
+        private void rectLogin_Click(object sender, EventArgs e)
         {
             LoginClick();
         }
-
+       
         private void LoginClick()
         {
             User user = ValidateLogin(txtUser.Text, txtPassword.Text);
@@ -41,32 +39,21 @@ namespace CouthIntegration
 
                 foreach (Form form in Application.OpenForms)
                 {
-                    if (string.Compare(form.Name, "login", true) == 0)
+                    if (string.Compare(form.Name, "loginnew", true) == 0)
                     {
-                        frmlogin = (Login)form;
+                        frmlogin = (LoginNew)form;
                         break;
                     }
                 }
 
                 Common.UserID = user.UserID;
-                Main main = new Main();
+                MainForm main = new MainForm();
                 main.Show();
                 if (frmlogin != null)
                 {
                     frmlogin.Visible = false;
                 }
             }
-        }
-
-        private string GetClickOnceVersion()
-        {
-            Version version = new Version();
-            if (ApplicationDeployment.IsNetworkDeployed)
-            {
-                version = ApplicationDeployment.CurrentDeployment.CurrentVersion;
-            }
-
-            return version.ToString();
         }
 
         private User ValidateLogin(string userName, string password)
@@ -124,15 +111,29 @@ namespace CouthIntegration
             return user;
         }
 
-        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        private void lblLogin_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                BtnLogin_Click(sender, e);
-            }
+            LoginClick();
         }
 
-        private void Login_Load(object sender, EventArgs e)
+        private void lnkChangePassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ChangePassword changePassword = new ChangePassword();
+            changePassword.ShowDialog();
+        }
+
+        private string GetClickOnceVersion()
+        {
+            Version version = new Version();
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                version = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            }
+
+            return version.ToString();
+        }
+
+        private void LoginNew_Load(object sender, EventArgs e)
         {
             string version = GetClickOnceVersion();
             if (!string.IsNullOrEmpty(version) && !version.Equals("0.0", StringComparison.OrdinalIgnoreCase))
@@ -142,10 +143,9 @@ namespace CouthIntegration
             }
         }
 
-        private void lnkChangePassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            ChangePassword changePassword = new ChangePassword();
-            changePassword.ShowDialog();
+            LoginClick();
         }
     }
 }

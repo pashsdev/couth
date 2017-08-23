@@ -14,6 +14,7 @@ create or replace PROCEDURE PG_GET_JOBNODETAILS
   p_from_serial VARCHAR2,
   p_to_serial VARCHAR2,
   p_org_id number,
+  code VARCHAR2,
   cursor_ OUT sys_refcursor
 ) AS
 BEGIN
@@ -25,6 +26,7 @@ where csn.serial_number=ccv.serial_number
   and ccv.org_id=csn.organization_id
   and nvl(ccv.Printed,'N') = 'N' 
   and ccv.org_id=p_org_id
+  and csn.code = code
   And ccv.jobnumber = coalesce(Jobno,ccv.jobnumber)
   and ccv.serial_number between nvl(p_from_serial,ccv.serial_number) and nvl(p_to_serial,ccv.serial_number);
  

@@ -28,5 +28,6 @@ namespace TransferDatas
         public string HEAD { get; set; }
         public string C_SIZE { get; set; }
         public string R01_AMPS { get; set; }
+        public Int64 ORG_ID { get; set; }
     }
 }

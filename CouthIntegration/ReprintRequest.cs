@@ -237,5 +237,38 @@ namespace CouthIntegration
             }
             return true;
         }
+
+        private void ChkMarkOdd_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Grid.Rows.Count; i++)
+            {
+                if (!Common.IsOdd(i))
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
+                    chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+                }
+            }
+        }
+
+        private void ChkMarkEven_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Grid.Rows.Count; i++)
+            {
+                if (Common.IsOdd(i))
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
+                    chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+                }
+            }
+        }
+
+        private void ChkMarkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Grid.Rows.Count; i++)
+            {
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
+                chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+            }
+        }
     }
 }

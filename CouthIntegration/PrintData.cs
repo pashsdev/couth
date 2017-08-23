@@ -51,11 +51,11 @@ namespace CouthIntegration
 
         }
 
-        public List<Search> GetSearchDetails(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
+        public List<Search> GetSearchDetails(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID, string code)
         {
             string webserviceURL = Common.GetWebServiceURL();
 
-            string qs = string.Format("?jobno={0}&serialnofrom={1}&serialnoto={2}&oracleunitid={3}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID);
+            string qs = string.Format("?jobno={0}&serialnofrom={1}&serialnoto={2}&oracleunitid={3}&code={4}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID, code);
             if (Debugger.IsAttached)
             {
                 webserviceURL = string.Concat(webserviceURL, "GetPrintDataLocal.aspx", qs);
@@ -154,7 +154,9 @@ namespace CouthIntegration
                 {
                     oracleUnitID = _units.Where(x => x.UnitID == unitID).Select(x => x.OracleUnitID).FirstOrDefault();
                 }
-                List<Search> lstSearch = GetSearchDetails(jobno, txtSerialNoFrom.Text, txtSerialNoTo.Text, oracleUnitID);
+
+                string code = CmbCode.SelectedItem.ToString();
+                List<Search> lstSearch = GetSearchDetails(jobno, txtSerialNoFrom.Text, txtSerialNoTo.Text, oracleUnitID, code);
 
                 //List<Reprint> lstPrinted = GetReprintRequest();
 
@@ -188,6 +190,12 @@ namespace CouthIntegration
                     txtSerialNoTo.Focus();
                     retValue = false;
                 }
+            }
+            if (CmbCode.SelectedIndex < 0)
+            {
+                MessageBox.Show("Select Code", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                CmbCode.Focus();
+                retValue = false;
             }
             return retValue;
         }
@@ -263,6 +271,13 @@ namespace CouthIntegration
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
                 request.Method = "Post";
                 request.ContentType = "application/x-www-form-urlencoded";
+                Int64 unitID = 0;
+                Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
+                Int64 oracleUnitID = 0;
+                if (unitID > 0)
+                {
+                    oracleUnitID = _units.Where(x => x.UnitID == unitID).Select(x => x.OracleUnitID).FirstOrDefault();
+                }
                 List<Search> lstSearch = new List<Search>();
                 foreach (DataGridViewRow row in Grid.Rows)
                 {
@@ -284,6 +299,7 @@ namespace CouthIntegration
                             searchRequest.Template = row.Cells["DgvColTemplate"].Value.ToString();
                         }
                         searchRequest.Printed = true;
+                        searchRequest.ORG_ID = oracleUnitID; 
                         lstSearch.Add(searchRequest);
                     }
                 }

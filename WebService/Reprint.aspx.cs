@@ -94,7 +94,7 @@ public partial class ReprintData : System.Web.UI.Page
         }
         else
         {
-            ReturnReprintable(jobNo, serialNoFrom, serialNoTo, unitID);
+            ReturnReprintable(jobNo, serialNoFrom, serialNoTo, oracleUnitID);
         }
     }
 

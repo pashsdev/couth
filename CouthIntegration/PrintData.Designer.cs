@@ -52,9 +52,6 @@
             this.BtnSearch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Grid = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.BtnPrintPreview = new System.Windows.Forms.Button();
-            this.BtnPrint = new System.Windows.Forms.Button();
             this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColhead = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColPerfomance = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +74,11 @@
             this.DgvColSerialNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColTemplate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColMark = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.BtnPrintPreview = new System.Windows.Forms.Button();
+            this.BtnPrint = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.CmbCode = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,6 +89,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.CmbCode);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.CmbTemplate);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.txtJobNo);
@@ -106,7 +110,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(5, 7);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1053, 75);
+            this.panel1.Size = new System.Drawing.Size(1053, 103);
             this.panel1.TabIndex = 3;
             // 
             // CmbTemplate
@@ -351,41 +355,10 @@
             this.DgvColSerialNo,
             this.DgvColTemplate,
             this.DgvColMark});
-            this.Grid.Location = new System.Drawing.Point(5, 89);
+            this.Grid.Location = new System.Drawing.Point(5, 116);
             this.Grid.Name = "Grid";
             this.Grid.Size = new System.Drawing.Size(1053, 305);
             this.Grid.TabIndex = 4;
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.BtnPrintPreview);
-            this.panel2.Controls.Add(this.BtnPrint);
-            this.panel2.Location = new System.Drawing.Point(5, 400);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1053, 34);
-            this.panel2.TabIndex = 15;
-            // 
-            // BtnPrintPreview
-            // 
-            this.BtnPrintPreview.Location = new System.Drawing.Point(825, 6);
-            this.BtnPrintPreview.Name = "BtnPrintPreview";
-            this.BtnPrintPreview.Size = new System.Drawing.Size(96, 23);
-            this.BtnPrintPreview.TabIndex = 16;
-            this.BtnPrintPreview.Text = "Print Preview";
-            this.BtnPrintPreview.UseVisualStyleBackColor = true;
-            this.BtnPrintPreview.Visible = false;
-            this.BtnPrintPreview.Click += new System.EventHandler(this.BtnPrintPreview_Click);
-            // 
-            // BtnPrint
-            // 
-            this.BtnPrint.Location = new System.Drawing.Point(927, 6);
-            this.BtnPrint.Name = "BtnPrint";
-            this.BtnPrint.Size = new System.Drawing.Size(120, 23);
-            this.BtnPrint.TabIndex = 14;
-            this.BtnPrint.Text = "Send To Print";
-            this.BtnPrint.UseVisualStyleBackColor = true;
-            this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
             // 
             // DgvColSno
             // 
@@ -562,11 +535,62 @@
             this.DgvColMark.HeaderText = "Mark";
             this.DgvColMark.Name = "DgvColMark";
             // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.BtnPrintPreview);
+            this.panel2.Controls.Add(this.BtnPrint);
+            this.panel2.Location = new System.Drawing.Point(5, 427);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1053, 34);
+            this.panel2.TabIndex = 15;
+            // 
+            // BtnPrintPreview
+            // 
+            this.BtnPrintPreview.Location = new System.Drawing.Point(825, 6);
+            this.BtnPrintPreview.Name = "BtnPrintPreview";
+            this.BtnPrintPreview.Size = new System.Drawing.Size(96, 23);
+            this.BtnPrintPreview.TabIndex = 16;
+            this.BtnPrintPreview.Text = "Print Preview";
+            this.BtnPrintPreview.UseVisualStyleBackColor = true;
+            this.BtnPrintPreview.Visible = false;
+            this.BtnPrintPreview.Click += new System.EventHandler(this.BtnPrintPreview_Click);
+            // 
+            // BtnPrint
+            // 
+            this.BtnPrint.Location = new System.Drawing.Point(927, 6);
+            this.BtnPrint.Name = "BtnPrint";
+            this.BtnPrint.Size = new System.Drawing.Size(120, 23);
+            this.BtnPrint.TabIndex = 14;
+            this.BtnPrint.Text = "Send To Print";
+            this.BtnPrint.UseVisualStyleBackColor = true;
+            this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Code";
+            // 
+            // CmbCode
+            // 
+            this.CmbCode.FormattingEnabled = true;
+            this.CmbCode.Items.AddRange(new object[] {
+            "Pump",
+            "Motor"});
+            this.CmbCode.Location = new System.Drawing.Point(69, 74);
+            this.CmbCode.Name = "CmbCode";
+            this.CmbCode.Size = new System.Drawing.Size(148, 21);
+            this.CmbCode.TabIndex = 22;
+            // 
             // PrintData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1065, 438);
+            this.ClientSize = new System.Drawing.Size(1065, 467);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel1);
@@ -639,5 +663,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColSerialNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColTemplate;
         private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColMark;
+        private System.Windows.Forms.ComboBox CmbCode;
+        private System.Windows.Forms.Label label3;
     }
 }

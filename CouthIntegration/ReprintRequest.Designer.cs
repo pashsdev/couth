@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CmbUnits = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtJobNo = new System.Windows.Forms.TextBox();
             this.txtRequestNo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -49,8 +51,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.BtnSave = new System.Windows.Forms.Button();
             this.Grid = new System.Windows.Forms.DataGridView();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CmbUnits = new System.Windows.Forms.ComboBox();
             this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColItemCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColJobno = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,6 +87,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(922, 75);
             this.panel1.TabIndex = 4;
+            // 
+            // CmbUnits
+            // 
+            this.CmbUnits.DisplayMember = "UnitName";
+            this.CmbUnits.FormattingEnabled = true;
+            this.CmbUnits.Location = new System.Drawing.Point(539, 49);
+            this.CmbUnits.Name = "CmbUnits";
+            this.CmbUnits.Size = new System.Drawing.Size(129, 21);
+            this.CmbUnits.TabIndex = 20;
+            this.CmbUnits.ValueMember = "UnitID";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(507, 50);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(26, 13);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Unit";
             // 
             // txtJobNo
             // 
@@ -132,6 +151,7 @@
             this.ChkMarkAll.TabIndex = 2;
             this.ChkMarkAll.Text = "Mark All";
             this.ChkMarkAll.UseVisualStyleBackColor = true;
+            this.ChkMarkAll.CheckedChanged += new System.EventHandler(this.ChkMarkAll_CheckedChanged);
             // 
             // ChkMarkEven
             // 
@@ -142,6 +162,7 @@
             this.ChkMarkEven.TabIndex = 1;
             this.ChkMarkEven.Text = "Mark Even";
             this.ChkMarkEven.UseVisualStyleBackColor = true;
+            this.ChkMarkEven.CheckedChanged += new System.EventHandler(this.ChkMarkEven_CheckedChanged);
             // 
             // ChkMarkOdd
             // 
@@ -152,6 +173,7 @@
             this.ChkMarkOdd.TabIndex = 0;
             this.ChkMarkOdd.Text = "Mark Odd";
             this.ChkMarkOdd.UseVisualStyleBackColor = true;
+            this.ChkMarkOdd.CheckedChanged += new System.EventHandler(this.ChkMarkOdd_CheckedChanged);
             // 
             // txtSerialNoTo
             // 
@@ -282,25 +304,6 @@
             this.Grid.Name = "Grid";
             this.Grid.Size = new System.Drawing.Size(922, 284);
             this.Grid.TabIndex = 17;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(507, 50);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(26, 13);
-            this.label6.TabIndex = 19;
-            this.label6.Text = "Unit";
-            // 
-            // CmbUnits
-            // 
-            this.CmbUnits.DisplayMember = "UnitName";
-            this.CmbUnits.FormattingEnabled = true;
-            this.CmbUnits.Location = new System.Drawing.Point(539, 49);
-            this.CmbUnits.Name = "CmbUnits";
-            this.CmbUnits.Size = new System.Drawing.Size(129, 21);
-            this.CmbUnits.TabIndex = 20;
-            this.CmbUnits.ValueMember = "UnitID";
             // 
             // DgvColSno
             // 

@@ -61,3 +61,5 @@ C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.TrustI
 C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.exe.manifest
 C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.application
 C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.ReprintRequestListing.resources
+C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.LoginNew.resources
+C:\Prakash\Projects\CRI\Couth\CouthIntegration\obj\Debug\CouthIntegration.MainForm.resources
