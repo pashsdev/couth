@@ -15,9 +15,14 @@ public partial class GetUnits : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         Int64 unitID = 0;
+        Int64 userID = 0;
         if (Request.QueryString["UnitID"] != null)
         {
             Int64.TryParse(Request.QueryString["UnitID"].ToString(), out unitID);
+        }
+        if (Request.QueryString["UserID"] != null)
+        {
+            Int64.TryParse(Request.QueryString["UserID"].ToString(), out userID);
         }
         if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "save")
         {
@@ -27,16 +32,20 @@ public partial class GetUnits : System.Web.UI.Page
         }
         else
         {
-            ReturnUnits(unitID);
+            ReturnUnits(userID,unitID);
         }
     }
 
-    private void ReturnUnits(Int64 UnitID)
+    private void ReturnUnits(Int64 userID, Int64 UnitID)
     {
         string json = string.Empty;
         try
         {
             ParameterList parameters = new ParameterList();
+            if (userID > 0)
+            {
+                parameters.Add("UserID", userID, SqlDbType.BigInt);
+            }
             if (UnitID > 0)
             {
                 parameters.Add("UnitID", UnitID, SqlDbType.BigInt);

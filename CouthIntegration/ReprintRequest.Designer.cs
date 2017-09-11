@@ -29,15 +29,17 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CmbCode = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.CmbUnits = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtJobNo = new System.Windows.Forms.TextBox();
             this.txtRequestNo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ChkMarkAll = new System.Windows.Forms.CheckBox();
-            this.ChkMarkEven = new System.Windows.Forms.CheckBox();
-            this.ChkMarkOdd = new System.Windows.Forms.CheckBox();
+            this.RdMarkAll = new System.Windows.Forms.RadioButton();
+            this.RdMarkEven = new System.Windows.Forms.RadioButton();
+            this.RdMarkOdd = new System.Windows.Forms.RadioButton();
             this.txtSerialNoTo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtSerialNoFrom = new System.Windows.Forms.TextBox();
@@ -69,6 +71,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.CmbCode);
+            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.CmbUnits);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.txtJobNo);
@@ -85,18 +89,39 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(5, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(922, 75);
+            this.panel1.Size = new System.Drawing.Size(922, 99);
             this.panel1.TabIndex = 4;
+            // 
+            // CmbCode
+            // 
+            this.CmbCode.FormattingEnabled = true;
+            this.CmbCode.Items.AddRange(new object[] {
+            "Pump",
+            "Motor"});
+            this.CmbCode.Location = new System.Drawing.Point(56, 71);
+            this.CmbCode.Name = "CmbCode";
+            this.CmbCode.Size = new System.Drawing.Size(164, 21);
+            this.CmbCode.TabIndex = 24;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 74);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "Code *";
             // 
             // CmbUnits
             // 
             this.CmbUnits.DisplayMember = "UnitName";
             this.CmbUnits.FormattingEnabled = true;
-            this.CmbUnits.Location = new System.Drawing.Point(539, 49);
+            this.CmbUnits.Location = new System.Drawing.Point(580, 50);
             this.CmbUnits.Name = "CmbUnits";
-            this.CmbUnits.Size = new System.Drawing.Size(129, 21);
+            this.CmbUnits.Size = new System.Drawing.Size(187, 21);
             this.CmbUnits.TabIndex = 20;
             this.CmbUnits.ValueMember = "UnitID";
+            this.CmbUnits.SelectedIndexChanged += new System.EventHandler(this.CmbUnits_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -116,7 +141,7 @@
             // 
             // txtRequestNo
             // 
-            this.txtRequestNo.Location = new System.Drawing.Point(590, 18);
+            this.txtRequestNo.Location = new System.Drawing.Point(580, 18);
             this.txtRequestNo.Name = "txtRequestNo";
             this.txtRequestNo.ReadOnly = true;
             this.txtRequestNo.Size = new System.Drawing.Size(187, 20);
@@ -133,47 +158,51 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.ChkMarkAll);
-            this.groupBox2.Controls.Add(this.ChkMarkEven);
-            this.groupBox2.Controls.Add(this.ChkMarkOdd);
-            this.groupBox2.Location = new System.Drawing.Point(674, 39);
+            this.groupBox2.Controls.Add(this.RdMarkAll);
+            this.groupBox2.Controls.Add(this.RdMarkEven);
+            this.groupBox2.Controls.Add(this.RdMarkOdd);
+            this.groupBox2.Location = new System.Drawing.Point(768, 8);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(239, 31);
+            this.groupBox2.Size = new System.Drawing.Size(149, 32);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Mark";
             // 
-            // ChkMarkAll
+            // RdMarkAll
             // 
-            this.ChkMarkAll.AutoSize = true;
-            this.ChkMarkAll.Location = new System.Drawing.Point(173, 10);
-            this.ChkMarkAll.Name = "ChkMarkAll";
-            this.ChkMarkAll.Size = new System.Drawing.Size(64, 17);
-            this.ChkMarkAll.TabIndex = 2;
-            this.ChkMarkAll.Text = "Mark All";
-            this.ChkMarkAll.UseVisualStyleBackColor = true;
-            this.ChkMarkAll.CheckedChanged += new System.EventHandler(this.ChkMarkAll_CheckedChanged);
+            this.RdMarkAll.AutoSize = true;
+            this.RdMarkAll.Location = new System.Drawing.Point(114, 13);
+            this.RdMarkAll.Name = "RdMarkAll";
+            this.RdMarkAll.Size = new System.Drawing.Size(36, 17);
+            this.RdMarkAll.TabIndex = 6;
+            this.RdMarkAll.TabStop = true;
+            this.RdMarkAll.Text = "All";
+            this.RdMarkAll.UseVisualStyleBackColor = true;
+            this.RdMarkAll.CheckedChanged += new System.EventHandler(this.RdMarkAll_CheckedChanged);
             // 
-            // ChkMarkEven
+            // RdMarkEven
             // 
-            this.ChkMarkEven.AutoSize = true;
-            this.ChkMarkEven.Location = new System.Drawing.Point(89, 10);
-            this.ChkMarkEven.Name = "ChkMarkEven";
-            this.ChkMarkEven.Size = new System.Drawing.Size(78, 17);
-            this.ChkMarkEven.TabIndex = 1;
-            this.ChkMarkEven.Text = "Mark Even";
-            this.ChkMarkEven.UseVisualStyleBackColor = true;
-            this.ChkMarkEven.CheckedChanged += new System.EventHandler(this.ChkMarkEven_CheckedChanged);
+            this.RdMarkEven.AutoSize = true;
+            this.RdMarkEven.Location = new System.Drawing.Point(58, 13);
+            this.RdMarkEven.Name = "RdMarkEven";
+            this.RdMarkEven.Size = new System.Drawing.Size(50, 17);
+            this.RdMarkEven.TabIndex = 5;
+            this.RdMarkEven.TabStop = true;
+            this.RdMarkEven.Text = "Even";
+            this.RdMarkEven.UseVisualStyleBackColor = true;
+            this.RdMarkEven.CheckedChanged += new System.EventHandler(this.RdMarkEven_CheckedChanged);
             // 
-            // ChkMarkOdd
+            // RdMarkOdd
             // 
-            this.ChkMarkOdd.AutoSize = true;
-            this.ChkMarkOdd.Location = new System.Drawing.Point(10, 10);
-            this.ChkMarkOdd.Name = "ChkMarkOdd";
-            this.ChkMarkOdd.Size = new System.Drawing.Size(73, 17);
-            this.ChkMarkOdd.TabIndex = 0;
-            this.ChkMarkOdd.Text = "Mark Odd";
-            this.ChkMarkOdd.UseVisualStyleBackColor = true;
-            this.ChkMarkOdd.CheckedChanged += new System.EventHandler(this.ChkMarkOdd_CheckedChanged);
+            this.RdMarkOdd.AutoSize = true;
+            this.RdMarkOdd.Location = new System.Drawing.Point(7, 13);
+            this.RdMarkOdd.Name = "RdMarkOdd";
+            this.RdMarkOdd.Size = new System.Drawing.Size(45, 17);
+            this.RdMarkOdd.TabIndex = 4;
+            this.RdMarkOdd.TabStop = true;
+            this.RdMarkOdd.Text = "Odd";
+            this.RdMarkOdd.UseVisualStyleBackColor = true;
+            this.RdMarkOdd.CheckedChanged += new System.EventHandler(this.RdMarkOdd_CheckedChanged);
             // 
             // txtSerialNoTo
             // 
@@ -250,7 +279,7 @@
             // 
             // BtnSearch
             // 
-            this.BtnSearch.Location = new System.Drawing.Point(838, 14);
+            this.BtnSearch.Location = new System.Drawing.Point(838, 49);
             this.BtnSearch.Name = "BtnSearch";
             this.BtnSearch.Size = new System.Drawing.Size(75, 23);
             this.BtnSearch.TabIndex = 4;
@@ -271,7 +300,7 @@
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.BtnSave);
-            this.panel2.Location = new System.Drawing.Point(5, 401);
+            this.panel2.Location = new System.Drawing.Point(5, 439);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(922, 34);
             this.panel2.TabIndex = 16;
@@ -300,10 +329,11 @@
             this.DgvColTemplate,
             this.DgvColRemarks,
             this.DgvColMark});
-            this.Grid.Location = new System.Drawing.Point(5, 82);
+            this.Grid.Location = new System.Drawing.Point(5, 110);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(922, 284);
+            this.Grid.Size = new System.Drawing.Size(922, 323);
             this.Grid.TabIndex = 17;
+            this.Grid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Grid_DataError);
             // 
             // DgvColSno
             // 
@@ -348,7 +378,7 @@
             // 
             // DgvColTemplate
             // 
-            this.DgvColTemplate.DataPropertyName = "Template";
+            this.DgvColTemplate.DataPropertyName = "TemplateID";
             this.DgvColTemplate.HeaderText = "Template";
             this.DgvColTemplate.Name = "DgvColTemplate";
             this.DgvColTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -357,6 +387,7 @@
             // 
             // DgvColRemarks
             // 
+            this.DgvColRemarks.DataPropertyName = "Remarks";
             this.DgvColRemarks.HeaderText = "Remarks";
             this.DgvColRemarks.Name = "DgvColRemarks";
             // 
@@ -369,7 +400,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(931, 441);
+            this.ClientSize = new System.Drawing.Size(931, 480);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -395,9 +426,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox ChkMarkAll;
-        private System.Windows.Forms.CheckBox ChkMarkEven;
-        private System.Windows.Forms.CheckBox ChkMarkOdd;
         private System.Windows.Forms.TextBox txtSerialNoTo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtSerialNoFrom;
@@ -424,5 +452,10 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn DgvColTemplate;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRemarks;
         private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColMark;
+        private System.Windows.Forms.RadioButton RdMarkAll;
+        private System.Windows.Forms.RadioButton RdMarkEven;
+        private System.Windows.Forms.RadioButton RdMarkOdd;
+        private System.Windows.Forms.ComboBox CmbCode;
+        private System.Windows.Forms.Label label7;
     }
 }

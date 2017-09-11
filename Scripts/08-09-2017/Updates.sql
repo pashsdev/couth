@@ -1,10 +1,20 @@
-
+Alter Table cri_catalog_values Drop column Printed 
+GO
+Alter Table cri_serial_numbers Add Printed Bit
 GO
 Alter Table Units Add OracleUnitID BIGINT
 GO
 Alter Table Units Add Constraint UQ_Units_Unit Unique (Unit)
 GO
 Alter Table Units Add Active BIT NOT NULL Constraint DF_Units_Active Default 1
+GO
+Alter Table ReprintDetails Add TemplateID BIGINT
+GO
+Alter Table ReprintDetails Add Remarks Varchar(200) 
+GO
+Alter Table cri_serial_numbers Add PrintCount BIGINT NOT NULL CONSTRAINT DF_cri_catalog_values_PrintCount Default 0
+GO
+Alter Table cri_serial_numbers Add CODE VARCHAR(40)
 GO
 Alter Proc PG_Unit_Save
 (
@@ -31,12 +41,24 @@ GO
 
 Alter Proc PG_Unit_Listing
 (
-	@UnitID BigInt = NULL
+	@UnitID BigInt = NULL,
+	@UserID BigInt = NULL
 )
 as
 BEGIN
-	Select * From Units u WITH (NOLOCK) 
-	Where u.UnitID = COAlESCE(@UnitID,u.UnitID)
+	if (@UserID =1 )
+	BEGIN
+		Select *,1 as FullRights,1 as ViewRights
+		From Units u WITH (NOLOCK) 
+		Where u.UnitID = COAlESCE(@UnitID,u.UnitID)
+	END
+	ELSE
+	BEGIN
+		Select * From Units u WITH (NOLOCK) 
+		Inner Join UserUnits ur on u.UnitID = ur.UnitId
+		Where u.UnitID = COAlESCE(@UnitID,u.UnitID)
+		And ur.UserId = @UserID
+	END
 
 	Select * From Designation dg WITH (NOLOCK)
 	Left Join 
@@ -45,6 +67,7 @@ BEGIN
 			From UnitRights ur WITH (NOLOCK)
 			Inner Join Users u WITH (NOLOCK) on ur.UserId = u.UserID
 			Where ur.UnitId = @UnitID
+			AND u.UserID = @UserID
 		) urgt on urgt.DesignationID = dg.DesignationID
 	Order by dg.DesignationID
 
@@ -146,7 +169,8 @@ Alter Proc PG_List_ReprintRequest
   @JOBNO VARCHAR(max),
   @p_from_serial VARCHAR(max),
   @p_to_serial VARCHAR(MAX),
-  @p_org_id BIGINT
+  @p_org_id BIGINT,
+  @Code varchar(30)
 ) AS
 BEGIN
 	select *
@@ -154,6 +178,8 @@ BEGIN
 	where csn.serial_number=ccv.serial_number
 	  and ccv.org_id=csn.organization_id
 	  and ccv.org_id=@p_org_id
+	  and csn.Code = @Code
+	  and csn.printed = 1
 	  And ccv.jobnumber = coalesce(@JOBNO,ccv.jobnumber)
 	  and ccv.serial_number between COalesce( @p_from_serial,ccv.serial_number) and COALESCE( @p_to_serial,ccv.serial_number)
 END
@@ -178,13 +204,16 @@ Create Proc PG_Save_ReprintRequestDetails
 @Serial_Number Varchar(30),
 @Jobnumber varchar(30),
 @Item_Code Varchar(40),
-@Description Varchar(240)
+@Description Varchar(240),
+@TemplateID BIGINT,
+@Remarks Varchar(200)
 )
 as
 BEGIN
 	Declare @ReprintID BIGINT
 	Select @ReprintID = ReprintID From Reprint WITH (NOLOCK) Where ReprintNo = @RequestNo
-	Insert Into ReprintDetails( ReprintID,Serial_Number,JobNumber,Item_Code,[Description]) values (@ReprintID ,@Serial_Number,@Jobnumber,@Item_Code,@Description)
+	Insert Into ReprintDetails( ReprintID,Serial_Number,JobNumber,Item_Code,[Description],TemplateId,Remarks) 
+	values (@ReprintID ,@Serial_Number,@Jobnumber,@Item_Code,@Description,@TemplateID,@Remarks)
 END
 
 Go
@@ -202,7 +231,7 @@ Alter Proc PG_Get_Reprint
 )
 as
 BEGIN  
-  Select Distinct r.ReprintID,r.ReprintNo,r.ReprintDate,r.RequestUserID,r.UnitID,u.UserName,unt.Unit
+  Select Distinct r.ReprintID,r.ReprintNo,r.ReprintDate,r.RequestUserID,r.UnitID,u.UserName,unt.Unit,TemplateID,Remarks
   From Reprint r WITH (NOLOCK)
   Inner Join ReprintDetails rd WITH (NOLOCK) on r.ReprintID = rd.ReprintID
   Inner Join Users u on r.RequestUserID = u.UserID 
@@ -215,11 +244,13 @@ BEGIN
   and r.ReprintDate between COalesce(@FromDt,r.ReprintDate) and COALESCE( @ToDt,r.ReprintDate)
   
   Select r.ReprintID,r.ReprintNo,r.ReprintDate,r.RequestUserID,rd.ReprintDetailsID, rd.ApprovedStatus,rd.ApprovedBy,rd.ApprovedDate,rd.ApprovalRemarks,r.UnitID,u.UserName,app.UserName as ApprovedByUser,
-   rd.[Description],rd.Item_Code,rd.JobNumber,rd.ReprintDetailsID,rd.Serial_Number
+   rd.[Description],rd.Item_Code,rd.JobNumber,rd.ReprintDetailsID,rd.Serial_Number,Rd.TemplateID,rd.Remarks, tem.TemplateName as Template, ccv.PrintCount,ccv.code
   From Reprint r WITH (NOLOCK)
   Inner Join ReprintDetails rd WITH (NOLOCK) on r.ReprintID = rd.ReprintID
+  Inner Join cri_serial_numbers ccv on rd.Serial_Number = ccv.Serial_Number
   Inner Join Users u on r.RequestUserID = u.UserID 
   Left Join Users app on rd.ApprovedBy = app.UserID 
+  Left Join cri_Templates tem on rd.TemplateID = tem.TemplateID
   Where 1=1
   and (@ApprovalPending < 0 and rd.Approved in(0,1) OR rd.Approved = @ApprovalPending) 
   --and COALESCE(rd.ApprovedStatus,'') =  COALESCE(approvalPending,rd.ApprovedStatus,'')
@@ -247,6 +278,10 @@ Update ReprintDetails
 	, ApprovedDate=GETDATE()
 	, Approved =1 
 Where ReprintDetailsID = @ReprintDetailsID
+
+DECLARE @SerialNumber VARCHAR(30)
+Select @SerialNumber = Serial_Number From ReprintDetails Where ReprintDetailsID = @ReprintDetailsID
+Update cri_serial_numbers Set Printed =0, PrintCount = COALESCE(PrintCount,0) +1 Where Serial_Number = @SerialNumber
 END
 
 GO
@@ -261,22 +296,63 @@ Alter Proc PG_Save_SerialJobNumber
 @Item_Code Varchar(40),
 @Description Varchar(240),
 @Printed Bit,
-@ORG_ID BIGINT
+@ORG_ID BIGINT,
+@CODE VARCHAR(30)
 )
 as
 
-If Not Exists(Select * From cri_serial_numbers WITH (NOLOCK) Where Inventory_Item_Id =@Inventory_Item_Id)
+If Not Exists(Select * From cri_serial_numbers WITH (NOLOCK) Where organization_id = @ORG_ID AND code = @CODE and Serial_Number = @Serial_Number)
 Begin
-	Insert Into cri_serial_numbers (Item_Name,Item_Desc,organization_id,Serial_Number) Values (@Item_Name,@Item_Desc,@ORG_ID,@Serial_Number)
+	Insert Into cri_serial_numbers (Item_Name,Item_Desc,organization_id,Serial_Number,Code,Printed,PrintCount) Values (@Item_Name,@Item_Desc,@ORG_ID,@Serial_Number,@CODE,@Printed,1)
 End
 
 If Not Exists (Select * From cri_catalog_values WITH (NOLOCK) Where Serial_Number = @Serial_Number)
 Begin
-	Insert Into cri_catalog_values (Serial_Number,Jobnumber,Item_Code,[Description],Printed,org_id) Values (@Serial_Number,@JobNumber,@Item_Code,@Description,@Printed,@ORG_ID)
+	Insert Into cri_catalog_values (Serial_Number,Jobnumber,Item_Code,[Description],org_id) Values 
+	(@Serial_Number,@JobNumber,@Item_Code,@Description,@ORG_ID)
 End
 Else
 Begin
-	Update cri_catalog_values Set Printed = @Printed Where Serial_Number = @Serial_Number
+	Update cri_serial_numbers Set Printed = @Printed Where Serial_Number = @Serial_Number
 End
 
+GO
 
+ALTER Proc [dbo].[GetValidUser]
+(@UserName Varchar(200),
+ @Password Varchar(200))
+as
+Select * From Users WITH (NOLOCK) Where UserName = @UserName and [Password] = @Password
+And COALESCE(FromDate,GETDATE()) <= GETDATE() And COALESCE(ToDate,GETDATE()) >= GETDATE()
+
+go
+
+Alter PROCEDURE PG_UPDATE_JOBNODETAILS
+(
+  @p_serial VARCHAR(30),
+  @Org_ID BIGINT,
+  @Code Varchar(30),
+  @Printed varchar(1)
+) AS
+BEGIN
+
+  UPDATE CRI_SERIAL_NUMBERS_ORACLE SET Printed = @Printed Where serial_number = @p_serial and ORGANIZATION_ID = @Org_ID and CODE = @Code
+END
+
+GO
+
+Create Proc PG_User_Listing
+(
+	@UserID BigInt = NULL
+)
+as
+--Select UserID, UserName, [Password], Email, IsApprover, IsAdmin,CONVERT(varchar(20),FromDate,103) AS FromDate,
+--Convert(varchar(20),ToDate,103) as Todate From Users WITH (NOLOCK) Where UserID = COAlESCE(@UserID,UserID)
+
+Select UserID, UserName, [Password], Email, IsApprover, IsAdmin, FromDate,Todate 
+From Users WITH (NOLOCK) Where UserID = COAlESCE(@UserID,UserID)
+
+Select * From Units un WITH (NOLOCK)
+Left Join (Select uu.UserUnitID,uu.UserID,uu.UnitID,uu.FullRights,uu.ViewRights From UserUnits uu WITH (NOLOCK) 
+Inner Join Users u on uu.userID = u.UserID
+Where uu.UserID = @UserID) unr ON un.UnitID = unr.UnitID

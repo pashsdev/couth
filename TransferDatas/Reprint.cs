@@ -24,6 +24,8 @@ namespace TransferDatas
         public string RequestUser { get; set; }
         public Int64 UnitID { get; set; }
         public string Unit { get; set; }
+        public string Code { get; set; }
+        public Int64 OracleUnitID { get; set; }
     }
 
     public class ReprintDetails
@@ -45,5 +47,11 @@ namespace TransferDatas
         public string Jobnumber { get; set; }
         public string Item_Code { get; set; }
         public string Description { get; set; }
+        public Int64 TemplateID { get; set; }
+        public string Template { get; set; }
+        public string Remarks { get; set; }
+        public Int64 PrintCount { get; set; }
+        public string Code { get; set; }
+        public Int64 OracleUnitID { get; set; }
     }
 }

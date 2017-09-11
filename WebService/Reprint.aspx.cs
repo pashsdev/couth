@@ -23,6 +23,7 @@ public partial class ReprintData : System.Web.UI.Page
         DateTime FromDt = DateTime.MinValue;
         DateTime ToDt = DateTime.MinValue;
         Int64 unitID = 0;
+        string code = string.Empty;
         if (Request.QueryString["JobNo"] != null)
         {
             jobNo = Request.QueryString["JobNo"].ToString();
@@ -34,6 +35,10 @@ public partial class ReprintData : System.Web.UI.Page
         if (Request.QueryString["serialnoto"] != null)
         {
             serialNoTo = Request.QueryString["serialnoto"].ToString();
+        }
+        if (Request.QueryString["code"] != null)
+        {
+            code = Request.QueryString["code"].ToString();
         }
         if (Request.QueryString["OracleUnitID"] != null)
         {
@@ -94,7 +99,7 @@ public partial class ReprintData : System.Web.UI.Page
         }
         else
         {
-            ReturnReprintable(jobNo, serialNoFrom, serialNoTo, oracleUnitID);
+            ReturnReprintable(jobNo, serialNoFrom, serialNoTo, oracleUnitID, code);
         }
     }
 
@@ -264,6 +269,11 @@ public partial class ReprintData : System.Web.UI.Page
                 detail.ApprovedDate = helper.GetDateTime("ApprovedDate");
                 detail.ApprovedByUser = helper.GetString("ApprovedByUser");
                 detail.ApprovalRemarks = helper.GetString("ApprovalRemarks");
+                detail.TemplateID = helper.GetInt64("TemplateID");
+                detail.Template = helper.GetString("Template");
+                detail.Remarks = helper.GetString("Remarks");
+                detail.PrintCount = helper.GetInt64("PrintCount");
+                detail.Code = helper.GetString("Code");
                 reprintDetails.Add(detail);
 
                 sno += 1;
@@ -283,7 +293,7 @@ public partial class ReprintData : System.Web.UI.Page
         }
     }
 
-    private void ReturnReprintable(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
+    private void ReturnReprintable(string jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID, string code)
     {
         string json = string.Empty;
         try
@@ -314,6 +324,7 @@ public partial class ReprintData : System.Web.UI.Page
             {
                 parameters.Add("p_to_serial", DBNull.Value, SqlDbType.VarChar);
             }
+            parameters.Add("code", code, SqlDbType.VarChar);
             //parameters.Add("Approved", approved, SqlDbType.Bit);
             string connectionstring = System.Configuration.ConfigurationManager.AppSettings["Constr"].ToString();
             IDataReader idr = SqlHelper.ExecuteReader(connectionstring, "PG_List_ReprintRequest", CommandType.StoredProcedure, parameters);
@@ -368,7 +379,8 @@ public partial class ReprintData : System.Web.UI.Page
                 detailparameters.Add("JobNumber", rePrint.Jobnumber, SqlDbType.VarChar);
                 detailparameters.Add("Item_Code", rePrint.Item_Code, SqlDbType.VarChar);
                 detailparameters.Add("Description", rePrint.Description, SqlDbType.VarChar);
-
+                detailparameters.Add("TemplateID", rePrint.TemplateID, SqlDbType.BigInt);
+                detailparameters.Add("Remarks", rePrint.Remarks, SqlDbType.VarChar);
                 SqlHelper.ExecuteNonQuery(connectionstring, "PG_Save_ReprintRequestDetails", CommandType.StoredProcedure, detailparameters);
             }
         }

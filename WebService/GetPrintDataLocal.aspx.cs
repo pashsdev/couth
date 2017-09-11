@@ -157,7 +157,8 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
                 parameters.Add("Description", searchRequest.ProductDesc, SqlDbType.VarChar);
                 parameters.Add("Printed", searchRequest.Printed, SqlDbType.Bit);
                 parameters.Add("ORG_ID", searchRequest.ORG_ID, SqlDbType.BigInt);
-
+                parameters.Add("CODE", searchRequest.CODE, SqlDbType.VarChar);
+                
                 SqlHelper.ExecuteNonQuery(connectionstring, "PG_Save_SerialJobNumber", CommandType.StoredProcedure, parameters);
             }
         }
@@ -189,6 +190,9 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
                 {
                     parameters.Add("p_serial", DBNull.Value, SqlDbType.VarChar);
                 }
+                parameters.Add("Printed", "Y", SqlDbType.VarChar);
+                parameters.Add("Org_ID", searchRequest.ORG_ID, SqlDbType.BigInt);
+                parameters.Add("Code", searchRequest.CODE, SqlDbType.VarChar);
 
                 SqlHelper.ExecuteNonQuery(connectionString, query, CommandType.StoredProcedure, parameters, -1);
             }

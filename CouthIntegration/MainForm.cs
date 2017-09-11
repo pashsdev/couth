@@ -21,8 +21,12 @@ namespace CouthIntegration
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadWelcomePage();
-            LoadMasterMenu();
+            if (Common.CurrentUser != null && Common.CurrentUser.IsAdmin)
+            {
+                LoadMasterMenu();
+            }
             LoadTransactionMenu();
+            LoadExitMenu();
         }
 
         private void LoadWelcomePage()
@@ -33,6 +37,13 @@ namespace CouthIntegration
 
         private void LoadMasterMenu()
         {
+            ToolStripDropDownButton masters = new ToolStripDropDownButton();
+            masters.Image = CouthIntegration.Properties.Resources.Transactions;
+            masters.ImageScaling = ToolStripItemImageScaling.None;
+            masters.Text = "Masters";
+            masters.TextImageRelation = TextImageRelation.ImageAboveText;
+            toolStrip1.Items.Add(masters);
+
             ToolStripMenuItem menuUsers = new ToolStripMenuItem("Users");
             ToolStripMenuItem menuUserCreation = new ToolStripMenuItem();
             menuUserCreation.Name = "mnuUserCreation";
@@ -45,19 +56,19 @@ namespace CouthIntegration
             //menuUserReport.Text = "Report";
             //menuUsers.DropDownItems.Add(menuUserReport);
 
-            MasterMenu.DropDownItems.Add(menuUsers);
+            masters.DropDownItems.Add(menuUsers);
 
             ToolStripMenuItem menuUnit = new ToolStripMenuItem();
             menuUnit.Name = "mnuUnitCreation";
             menuUnit.Text = "Unit";
             menuUnit.Click += menuUnitCreation_Click;
-            MasterMenu.DropDownItems.Add(menuUnit);
+            masters.DropDownItems.Add(menuUnit);
 
             ToolStripMenuItem menuTemplate = new ToolStripMenuItem();
             menuTemplate.Name = "mnuTemplateCreation";
             menuTemplate.Text = "Template";
             menuTemplate.Click += menuTemplate_Click;
-            MasterMenu.DropDownItems.Add(menuTemplate);
+            masters.DropDownItems.Add(menuTemplate);
 
         }
 
@@ -81,29 +92,52 @@ namespace CouthIntegration
 
         private void LoadTransactionMenu()
         {
+            ToolStripDropDownButton transactions = new ToolStripDropDownButton();
+            transactions.Image = CouthIntegration.Properties.Resources.Transactions;
+            transactions.ImageScaling = ToolStripItemImageScaling.None;
+            transactions.Text = "Transactions";
+            transactions.TextImageRelation = TextImageRelation.ImageAboveText;
+            toolStrip1.Items.Add(transactions);
+
             ToolStripMenuItem menuJobSerial = new ToolStripMenuItem("JobSerialSearch");
             menuJobSerial.Name = "mnuJobSerialSearch";
             menuJobSerial.Text = "Job / Serial no search";
             menuJobSerial.Click += menuJobSerial_Click;
-            TransactionMenu.DropDownItems.Add(menuJobSerial);
+            transactions.DropDownItems.Add(menuJobSerial);
 
             ToolStripMenuItem menuRequest = new ToolStripMenuItem("Request");
             menuRequest.Name = "mnuRequest";
             menuRequest.Text = "Request";
             menuRequest.Click += menuRequest_Click;
-            TransactionMenu.DropDownItems.Add(menuRequest);
+            transactions.DropDownItems.Add(menuRequest);
 
             ToolStripMenuItem menuApproval = new ToolStripMenuItem("Approval");
             menuApproval.Name = "mnuApproval";
             menuApproval.Text = "Approval";
             menuApproval.Click += menuApproval_Click;
-            TransactionMenu.DropDownItems.Add(menuApproval);
+            transactions.DropDownItems.Add(menuApproval);
 
             ToolStripMenuItem menuTestPrint = new ToolStripMenuItem("TestPrint");
             menuTestPrint.Name = "mnuTestPrint";
             menuTestPrint.Text = "Test Print";
             menuTestPrint.Click += menuTestPrint_Click;
-            TransactionMenu.DropDownItems.Add(menuTestPrint);
+            transactions.DropDownItems.Add(menuTestPrint);
+        }
+
+        private void LoadExitMenu()
+        {
+            ToolStripButton exitMenu = new ToolStripButton();
+            exitMenu.Image = CouthIntegration.Properties.Resources.if_exit_3226;
+            exitMenu.ImageScaling = ToolStripItemImageScaling.None;
+            exitMenu.Text = "Exit";
+            exitMenu.TextImageRelation = TextImageRelation.ImageAboveText;
+            exitMenu.Click += exitMenu_Click;
+            toolStrip1.Items.Add(exitMenu);
+        }
+
+        void exitMenu_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         void menuTestPrint_Click(object sender, EventArgs e)
@@ -157,10 +191,7 @@ namespace CouthIntegration
             approval.ShowDialog();
         }
 
-        private void ExitMenu_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+       
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {

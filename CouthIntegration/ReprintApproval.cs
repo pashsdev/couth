@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace CouthIntegration
                 Int64.TryParse(CmbRequestNo.SelectedValue.ToString(), out reprintID);
 
                 Grid.AutoGenerateColumns = false;
-                Grid.DataSource = Common.GetReprintDetails(txtJobNo.Text, "", "", unitID, reprintID, DateTime.MinValue, DateTime.MinValue,0);
+                Grid.DataSource = Common.GetReprintDetails(txtJobNo.Text, "", "", unitID, reprintID, DateTime.MinValue, DateTime.MinValue, 0);
             }
         }
 
@@ -88,11 +89,25 @@ namespace CouthIntegration
             {
 
                 string webserviceURL = Common.GetWebServiceURL();
-                webserviceURL = string.Concat(webserviceURL, "ReprintApproval.aspx?cmd=Save");
-
+                if (Debugger.IsAttached)
+                {
+                    webserviceURL = string.Concat(webserviceURL, "ReprintApprovalLocal.aspx?cmd=Save");
+                }
+                else
+                {
+                    webserviceURL = string.Concat(webserviceURL, "ReprintApproval.aspx?cmd=Save");
+                }
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webserviceURL);
                 request.Method = "Post";
                 request.ContentType = "application/x-www-form-urlencoded";
+
+                Int64 unitID = 0;
+                Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
+                Int64 oracleUnitID = 0;
+                if (unitID > 0)
+                {
+                    oracleUnitID = _units.Where(x => x.UnitID == unitID).Select(x => x.OracleUnitID).FirstOrDefault();
+                }
 
                 List<ReprintDetails> lstreprint = new List<ReprintDetails>();
                 foreach (DataGridViewRow row in Grid.Rows)
@@ -107,7 +122,9 @@ namespace CouthIntegration
                         reprint.ReprintID = reprintID;
                         reprint.ApprovedBy = Common.UserID;
                         reprint.ApprovalRemarks = Common.GetValue(row.Cells["DgvColRejRemarks"]);
-
+                        reprint.Serial_Number = Common.GetValue(row.Cells["DgvColSerialNo"]);
+                        reprint.Code = Common.GetValue(row.Cells["DgvColCode"]);
+                        reprint.OracleUnitID = oracleUnitID;
                         lstreprint.Add(reprint);
                     }
                 }
@@ -163,6 +180,34 @@ namespace CouthIntegration
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Grid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewComboBoxCell cb = (DataGridViewComboBoxCell)Grid.Rows[e.RowIndex].Cells["DgvColStatus"];
+                if (cb.Value != null)
+                {
+                    DataGridViewTextBoxCell remarksCell = (DataGridViewTextBoxCell)Grid.Rows[e.RowIndex].Cells["DgvColRejRemarks"];
+                    if (cb.Value.ToString().ToLower() == "rejected")
+                    {
+                        remarksCell.ReadOnly = false;
+                    }
+                    else
+                    {
+                        remarksCell.ReadOnly = true;
+                    }
+                    //Grid.Invalidate();
+                }
+            }
+        }
+
+        private void CmbUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Int64 unitID = 0;
+            Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
+            BtnSave.Enabled = Common.HasRights(unitID);
         }
     }
 }

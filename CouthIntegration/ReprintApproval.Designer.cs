@@ -37,9 +37,6 @@
             this.CmbUnits = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Grid = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.BtnCancel = new System.Windows.Forms.Button();
-            this.BtnSave = new System.Windows.Forms.Button();
             this.DgvColSno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintDetailsID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,6 +44,7 @@
             this.DgvColRequestDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColRequestedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColJobno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColSerialNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColTemplate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,6 +52,9 @@
             this.DgvColReqRemarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColStatus = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.DgvColRejRemarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.BtnCancel = new System.Windows.Forms.Button();
+            this.BtnSave = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             this.panel2.SuspendLayout();
@@ -71,7 +72,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(8, 8);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1279, 32);
+            this.panel1.Size = new System.Drawing.Size(1378, 32);
             this.panel1.TabIndex = 4;
             // 
             // CmbRequestNo
@@ -111,7 +112,7 @@
             // 
             // BtnList
             // 
-            this.BtnList.Location = new System.Drawing.Point(1197, 4);
+            this.BtnList.Location = new System.Drawing.Point(1297, 4);
             this.BtnList.Name = "BtnList";
             this.BtnList.Size = new System.Drawing.Size(75, 23);
             this.BtnList.TabIndex = 4;
@@ -128,15 +129,16 @@
             this.CmbUnits.Size = new System.Drawing.Size(166, 21);
             this.CmbUnits.TabIndex = 3;
             this.CmbUnits.ValueMember = "UnitID";
+            this.CmbUnits.SelectedIndexChanged += new System.EventHandler(this.CmbUnits_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(7, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 13);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Unit Name";
+            this.label1.Text = "Unit *";
             // 
             // Grid
             // 
@@ -151,6 +153,7 @@
             this.DgvColRequestDate,
             this.DgvColRequestedBy,
             this.DgvColJobno,
+            this.DgvColCode,
             this.DgvColDesc,
             this.DgvColSerialNo,
             this.DgvColTemplate,
@@ -160,38 +163,9 @@
             this.DgvColRejRemarks});
             this.Grid.Location = new System.Drawing.Point(8, 46);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(1279, 453);
+            this.Grid.Size = new System.Drawing.Size(1378, 453);
             this.Grid.TabIndex = 5;
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.BtnCancel);
-            this.panel2.Controls.Add(this.BtnSave);
-            this.panel2.Location = new System.Drawing.Point(8, 505);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1279, 34);
-            this.panel2.TabIndex = 16;
-            // 
-            // BtnCancel
-            // 
-            this.BtnCancel.Location = new System.Drawing.Point(1197, 6);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
-            this.BtnCancel.TabIndex = 15;
-            this.BtnCancel.Text = "Cancel";
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
-            // 
-            // BtnSave
-            // 
-            this.BtnSave.Location = new System.Drawing.Point(1116, 6);
-            this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(75, 23);
-            this.BtnSave.TabIndex = 14;
-            this.BtnSave.Text = "Save";
-            this.BtnSave.UseVisualStyleBackColor = true;
-            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            this.Grid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Grid_CellValueChanged);
             // 
             // DgvColSno
             // 
@@ -243,6 +217,13 @@
             this.DgvColJobno.Name = "DgvColJobno";
             this.DgvColJobno.ReadOnly = true;
             // 
+            // DgvColCode
+            // 
+            this.DgvColCode.DataPropertyName = "Code";
+            this.DgvColCode.HeaderText = "Code";
+            this.DgvColCode.Name = "DgvColCode";
+            this.DgvColCode.ReadOnly = true;
+            // 
             // DgvColDesc
             // 
             this.DgvColDesc.DataPropertyName = "Description";
@@ -266,12 +247,14 @@
             // 
             // DgvColPrintCount
             // 
+            this.DgvColPrintCount.DataPropertyName = "PrintCount";
             this.DgvColPrintCount.HeaderText = "Print Count";
             this.DgvColPrintCount.Name = "DgvColPrintCount";
             this.DgvColPrintCount.ReadOnly = true;
             // 
             // DgvColReqRemarks
             // 
+            this.DgvColReqRemarks.DataPropertyName = "Remarks";
             this.DgvColReqRemarks.HeaderText = "Remarks";
             this.DgvColReqRemarks.Name = "DgvColReqRemarks";
             this.DgvColReqRemarks.ReadOnly = true;
@@ -288,17 +271,49 @@
             // 
             this.DgvColRejRemarks.HeaderText = "Rej. Remarks";
             this.DgvColRejRemarks.Name = "DgvColRejRemarks";
+            this.DgvColRejRemarks.ReadOnly = true;
             this.DgvColRejRemarks.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.DgvColRejRemarks.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.BtnCancel);
+            this.panel2.Controls.Add(this.BtnSave);
+            this.panel2.Location = new System.Drawing.Point(8, 505);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1378, 34);
+            this.panel2.TabIndex = 16;
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.Location = new System.Drawing.Point(1297, 6);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancel.TabIndex = 15;
+            this.BtnCancel.Text = "Cancel";
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
+            // BtnSave
+            // 
+            this.BtnSave.Location = new System.Drawing.Point(1216, 6);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(75, 23);
+            this.BtnSave.TabIndex = 14;
+            this.BtnSave.Text = "Save";
+            this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // ReprintApproval
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1299, 551);
+            this.ClientSize = new System.Drawing.Size(1391, 551);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ReprintApproval";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Reprint Approval";
@@ -331,6 +346,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRequestDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColRequestedBy;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColJobno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DgvColCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColDesc;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColSerialNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DgvColTemplate;

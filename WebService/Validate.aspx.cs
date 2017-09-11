@@ -36,6 +36,9 @@ public partial class Validate : System.Web.UI.Page
                 Int64 userID;
                 Int64.TryParse(ds.Tables[0].Rows[0]["UserID"].ToString(), out userID);
                 user.UserID = userID;
+
+                user.IsAdmin = Convert.ToBoolean(ds.Tables[0].Rows[0]["IsAdmin"]);
+                user.IsApprover = Convert.ToBoolean(ds.Tables[0].Rows[0]["IsApprover"]);
             }
             json = JsonConvert.SerializeObject(user);
         }

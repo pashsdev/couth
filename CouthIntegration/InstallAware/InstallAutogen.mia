@@ -1,0 +1,68 @@
+Install Files
+Create Shortcut
+Install Assembly
+Install Assembly
+Install Assembly
+Install Assembly
+$
+{A2681931-221C-453A-ADD2-D688DEDFAC21}
+{B2DF2381-2B5C-4C50-A8AE-844AEAB2D7D2}
+{A1761E1A-1BA0-4C0F-AD88-180878B3821F}
+{49C26E6C-7CE3-4602-B14C-6E3D5AC8724F}
+{65A2F1DA-C9D2-43B3-B1B8-0E7E171A52FF}
+{916B2617-8C4A-46D4-AF07-2FE7E8DBE41A}
+$
+{A2681931-221C-453A-ADD2-D688DEDFAC21}
+C:\Prakash\Projects\CRI\Couth\CouthIntegration\bin\Debug\CouthIntegration.exe
+FALSE
+$TARGETDIR$
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+{B2DF2381-2B5C-4C50-A8AE-844AEAB2D7D2}
+$TARGETDIR$\CouthIntegration.exe
+CouthIntegration
+$SHORTCUTFOLDER$
+CouthIntegration
+
+
+
+
+0
+{A1761E1A-1BA0-4C0F-AD88-180878B3821F}
+C:\Prakash\Projects\CRI\Couth\TransferDatas\bin\Debug\TransferDatas.dll
+FALSE
+$TARGETDIR$
+{49C26E6C-7CE3-4602-B14C-6E3D5AC8724F}
+C:\Program Files (x86)\Reference Assemblies\Microsoft\VBPowerPacks\v10.0\Microsoft.VisualBasic.PowerPacks.Vs.dll
+TRUE
+
+{65A2F1DA-C9D2-43B3-B1B8-0E7E171A52FF}
+C:\Prakash\Projects\CRI\Couth\CouthIntegration\lib\Newtonsoft.Json.dll
+FALSE
+$TARGETDIR$
+{916B2617-8C4A-46D4-AF07-2FE7E8DBE41A}
+C:\Prakash\Projects\CRI\Couth\TransferDatas\bin\Debug\TransferDatas.dll
+FALSE
+$TARGETDIR$
+$
+
+
+
+
+
+
+$
+
+
+
+
+
+
+$

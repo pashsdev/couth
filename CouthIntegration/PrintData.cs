@@ -42,6 +42,11 @@ namespace CouthIntegration
             CmbUnits.DataSource = _units;
 
             List<Template> templates = Common.GetTemplates(0);
+            Template template = new Template();
+            template.TemplateID = 0;
+            template.TemplateName = "--Select--";
+            template.TemplateText = "--Select--";
+            templates.Insert(0,template);
             CmbTemplate.DataSource = templates;
             _templates = templates;
         }
@@ -174,7 +179,7 @@ namespace CouthIntegration
             {
                 MessageBox.Show("Enter Job No", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtJobNo.Focus();
-                retValue = false;
+                return false;
             }
             if (RadSerialNo.Checked)
             {
@@ -182,22 +187,28 @@ namespace CouthIntegration
                 {
                     MessageBox.Show("Enter Serial No From", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     txtSerialNoFrom.Focus();
-                    retValue = false;
+                    return false;
                 }
                 else if (string.IsNullOrEmpty(txtSerialNoTo.Text.Trim()))
                 {
                     MessageBox.Show("Enter Serial No To", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     txtSerialNoTo.Focus();
-                    retValue = false;
+                    return false;
                 }
+            }
+            if (CmbTemplate.SelectedIndex <= 0)
+            {
+                MessageBox.Show("Select Template", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                CmbTemplate.Focus();
+                return false;
             }
             if (CmbCode.SelectedIndex < 0)
             {
                 MessageBox.Show("Select Code", "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 CmbCode.Focus();
-                retValue = false;
+                return false;
             }
-            return retValue;
+            return true;
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
@@ -299,7 +310,8 @@ namespace CouthIntegration
                             searchRequest.Template = row.Cells["DgvColTemplate"].Value.ToString();
                         }
                         searchRequest.Printed = true;
-                        searchRequest.ORG_ID = oracleUnitID; 
+                        searchRequest.ORG_ID = oracleUnitID;
+                        searchRequest.CODE = CmbCode.Text;
                         lstSearch.Add(searchRequest);
                     }
                 }
@@ -344,6 +356,7 @@ namespace CouthIntegration
             if (RadJobno.Checked)
             {
                 lblJobno.Text = "Job No *";
+                txtJobNo.Text = "";
             }
             else
             {
@@ -357,44 +370,12 @@ namespace CouthIntegration
             {
                 lblSerialNoFrom.Text = "Serial No From *";
                 lblSerialNoTo.Text = "Serial No To *";
+                txtJobNo.Text = "";
             }
             else
             {
                 lblSerialNoFrom.Text = "Serial No From";
                 lblSerialNoTo.Text = "Serial No To";
-            }
-        }
-
-        private void ChkMarkOdd_CheckedChanged(object sender, EventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                if (!Common.IsOdd(i))
-                {
-                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
-                    chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
-                }
-            }
-        }
-
-        private void ChkMarkEven_CheckedChanged(object sender, EventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                if (Common.IsOdd(i))
-                {
-                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
-                    chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
-                }
-            }
-        }
-
-        private void ChkMarkAll_CheckedChanged(object sender, EventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
-                chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
             }
         }
 
@@ -414,5 +395,53 @@ namespace CouthIntegration
                 chk.Value = false;
             }
         }
+
+        private void RdMarkOdd_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RdMarkOdd.Checked)
+            {
+                for (int i = 0; i < Grid.Rows.Count; i++)
+                {
+                    if (!Common.IsOdd(i))
+                    {
+                        DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
+                        chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+                    }
+                }
+            }
+        }
+
+        private void RdMarkEven_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RdMarkEven.Checked)
+            {
+                for (int i = 0; i < Grid.Rows.Count; i++)
+                {
+                    if (Common.IsOdd(i))
+                    {
+                        DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
+                        chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+                    }
+                }
+            }
+        }
+
+        private void RdMarkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Grid.Rows.Count; i++)
+            {
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)Grid.Rows[i].Cells["DgvColMark"];
+                chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+            }
+        }
+
+        private void CmbUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Int64 unitID = 0;
+            Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
+            BtnPrint.Enabled = Common.HasRights(unitID);
+        }
+
+        
     }
 }

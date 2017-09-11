@@ -14,6 +14,7 @@ namespace CouthIntegration
 {
     public class Common
     {
+        public static User CurrentUser { get; set; }
         public static Int64 UserID { get; set; }
         public static string GetWebServiceURL()
         {
@@ -54,7 +55,7 @@ namespace CouthIntegration
         public static List<Unit> GetUnits(Int64 UnitID)
         {
             string webserviceURL = Common.GetWebServiceURL();
-            webserviceURL = string.Concat(webserviceURL, "GetUnits.aspx?UnitId=", UnitID);
+            webserviceURL = string.Concat(webserviceURL, "GetUnits.aspx?UserID=", UserID, "&UnitId=", UnitID);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
             request.Method = "GET";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -224,11 +225,11 @@ namespace CouthIntegration
             return lstReprint;
         }
 
-        public static List<Reprintable> GetReprintableRequest(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID)
+        public static List<Reprintable> GetReprintableRequest(string Jobno, string SerialNoFrom, string SerialNoTo, Int64 oracleUnitID, string code)
         {
             string webserviceURL = Common.GetWebServiceURL();
             webserviceURL = string.Concat(webserviceURL, "Reprint.aspx");
-            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&oracleUnitID={3}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID);
+            string qs = string.Format("&jobno={0}&serialnofrom={1}&serialnoto={2}&oracleUnitID={3}&Code={4}", Jobno, SerialNoFrom, SerialNoTo, oracleUnitID, code);
             webserviceURL = string.Concat(webserviceURL, "?Approved=0", qs);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
             request.Method = "GET";
@@ -273,6 +274,64 @@ namespace CouthIntegration
                 retValue = cell.Value.ToString();
             }
             return retValue;
+        }
+
+        public static Users GetUser(Int64 UnitID)
+        {
+            string webserviceURL = Common.GetWebServiceURL();
+            webserviceURL = string.Concat(webserviceURL, "GetUsers.aspx?UserId=", UserID, "&UnitId=", UnitID);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
+            request.Method = "GET";
+            request.ContentType = "application/x-www-form-urlencoded";
+            //StreamWriter requestWriter = new StreamWriter(request.GetRequestStream());
+            //requestWriter.Write(postString);
+            //requestWriter.Close();
+            WebResponse response = null;
+            string responseString = string.Empty;
+            Users users = null;
+            try
+            {
+                response = request.GetResponse();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader sr = new StreamReader(stream);
+                    responseString = sr.ReadToEnd();
+                }
+
+                users = JsonConvert.DeserializeObject<Users>(responseString);
+            }
+            catch (WebException ex)
+            {
+                if (((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.OK)
+                {
+                    MessageBox.Show(((HttpWebResponse)ex.Response).StatusDescription, "User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+            return users;
+
+        }
+
+        public static bool HasRights(Int64 unitID)
+        {
+            if (unitID > 0)
+            {
+                Users users = Common.GetUser(unitID);
+                if (users.userUnits[0].FullRights)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
         }
     }
 }

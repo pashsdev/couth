@@ -1,11 +1,14 @@
-Alter Table CRI_CATALOG_VALUES Add Printed CHAR(1);
+Alter Table CRI_SERIAL_NUMBERS Add Printed CHAR(1);
 
 create or replace PROCEDURE PG_UPDATE_JOBNODETAILS
 (
-  p_serial VARCHAR2
+  p_serial VARCHAR2,
+  p_orgID number,
+  p_code  VARCHAR2,
+  p_printed VARCHAR2
 ) AS
 BEGIN
-  UPDATE CRI_CATALOG_VALUES SET Printed = 'Y' Where serial_number = p_serial;
+  UPDATE CRI_SERIAL_NUMBERS SET Printed = p_printed Where serial_number = p_serial and ORGANIZATION_ID = p_orgID and CODE = p_code;
 END PG_UPDATE_JOBNODETAILS;
 
 create or replace PROCEDURE PG_GET_JOBNODETAILS
@@ -24,7 +27,7 @@ select csn.*,ccv.*,ccv.kw || '/' || ccv.hp as kwhp
 from cri_catalog_values ccv, cri_serial_numbers csn
 where csn.serial_number=ccv.serial_number
   and ccv.org_id=csn.organization_id
-  and nvl(ccv.Printed,'N') = 'N' 
+  and nvl(csn.Printed,'N') = 'N' 
   and ccv.org_id=p_org_id
   and csn.code = code
   And ccv.jobnumber = coalesce(Jobno,ccv.jobnumber)

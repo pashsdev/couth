@@ -15,9 +15,14 @@ public partial class GetUsers : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         Int64 userID = 0;
+        Int64 unitID = 0;
         if (Request.QueryString["UserID"] != null)
         {
             Int64.TryParse(Request.QueryString["UserID"].ToString(), out userID);
+        }
+        if (Request.QueryString["UnitID"] != null)
+        {
+            Int64.TryParse(Request.QueryString["UnitID"].ToString(), out unitID);
         }
         if (Request.QueryString["Cmd"] != null && Request.QueryString["cmd"].ToString().ToLower().Trim() == "save")
         {
@@ -27,11 +32,11 @@ public partial class GetUsers : System.Web.UI.Page
         }
         else
         {
-            ReturnUsers(userID);
+            ReturnUsers(userID,unitID);
         }
     }
 
-    private void ReturnUsers(Int64 UserID)
+    private void ReturnUsers(Int64 UserID,Int64 unitID)
     {
         string json = string.Empty;
         try
@@ -40,6 +45,10 @@ public partial class GetUsers : System.Web.UI.Page
             if (UserID > 0)
             {
                 parameters.Add("UserID", UserID, SqlDbType.BigInt);
+            }
+            if (unitID > 0)
+            {
+                parameters.Add("unitID", unitID, SqlDbType.BigInt);
             }
             string connectionstring = System.Configuration.ConfigurationManager.AppSettings["Constr"].ToString();
             IDataReader idr = SqlHelper.ExecuteReader(connectionstring, "PG_User_Listing", CommandType.StoredProcedure, parameters);

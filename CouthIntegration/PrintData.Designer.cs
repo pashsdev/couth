@@ -29,15 +29,17 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CmbCode = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.CmbTemplate = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtJobNo = new System.Windows.Forms.TextBox();
             this.CmbUnits = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ChkMarkAll = new System.Windows.Forms.CheckBox();
-            this.ChkMarkEven = new System.Windows.Forms.CheckBox();
-            this.ChkMarkOdd = new System.Windows.Forms.CheckBox();
+            this.RdMarkAll = new System.Windows.Forms.RadioButton();
+            this.RdMarkEven = new System.Windows.Forms.RadioButton();
+            this.RdMarkOdd = new System.Windows.Forms.RadioButton();
             this.BtnReset = new System.Windows.Forms.Button();
             this.BtnClear = new System.Windows.Forms.Button();
             this.txtSerialNoTo = new System.Windows.Forms.TextBox();
@@ -77,8 +79,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.BtnPrintPreview = new System.Windows.Forms.Button();
             this.BtnPrint = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.CmbCode = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -113,6 +113,26 @@
             this.panel1.Size = new System.Drawing.Size(1053, 103);
             this.panel1.TabIndex = 3;
             // 
+            // CmbCode
+            // 
+            this.CmbCode.FormattingEnabled = true;
+            this.CmbCode.Items.AddRange(new object[] {
+            "Pump",
+            "Motor"});
+            this.CmbCode.Location = new System.Drawing.Point(69, 74);
+            this.CmbCode.Name = "CmbCode";
+            this.CmbCode.Size = new System.Drawing.Size(148, 21);
+            this.CmbCode.TabIndex = 22;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Code";
+            // 
             // CmbTemplate
             // 
             this.CmbTemplate.DisplayMember = "TemplateName";
@@ -129,9 +149,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(412, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 13);
+            this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 19;
-            this.label2.Text = "Template";
+            this.label2.Text = "Template *";
             // 
             // txtJobNo
             // 
@@ -149,6 +169,7 @@
             this.CmbUnits.Size = new System.Drawing.Size(148, 21);
             this.CmbUnits.TabIndex = 17;
             this.CmbUnits.ValueMember = "UnitID";
+            this.CmbUnits.SelectedIndexChanged += new System.EventHandler(this.CmbUnits_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -161,47 +182,51 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.ChkMarkAll);
-            this.groupBox2.Controls.Add(this.ChkMarkEven);
-            this.groupBox2.Controls.Add(this.ChkMarkOdd);
+            this.groupBox2.Controls.Add(this.RdMarkAll);
+            this.groupBox2.Controls.Add(this.RdMarkEven);
+            this.groupBox2.Controls.Add(this.RdMarkOdd);
             this.groupBox2.Location = new System.Drawing.Point(818, 39);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(229, 31);
+            this.groupBox2.Size = new System.Drawing.Size(153, 32);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Mark";
             // 
-            // ChkMarkAll
+            // RdMarkAll
             // 
-            this.ChkMarkAll.AutoSize = true;
-            this.ChkMarkAll.Location = new System.Drawing.Point(168, 10);
-            this.ChkMarkAll.Name = "ChkMarkAll";
-            this.ChkMarkAll.Size = new System.Drawing.Size(64, 17);
-            this.ChkMarkAll.TabIndex = 2;
-            this.ChkMarkAll.Text = "Mark All";
-            this.ChkMarkAll.UseVisualStyleBackColor = true;
-            this.ChkMarkAll.CheckedChanged += new System.EventHandler(this.ChkMarkAll_CheckedChanged);
+            this.RdMarkAll.AutoSize = true;
+            this.RdMarkAll.Location = new System.Drawing.Point(114, 12);
+            this.RdMarkAll.Name = "RdMarkAll";
+            this.RdMarkAll.Size = new System.Drawing.Size(36, 17);
+            this.RdMarkAll.TabIndex = 5;
+            this.RdMarkAll.TabStop = true;
+            this.RdMarkAll.Text = "All";
+            this.RdMarkAll.UseVisualStyleBackColor = true;
+            this.RdMarkAll.CheckedChanged += new System.EventHandler(this.RdMarkAll_CheckedChanged);
             // 
-            // ChkMarkEven
+            // RdMarkEven
             // 
-            this.ChkMarkEven.AutoSize = true;
-            this.ChkMarkEven.Location = new System.Drawing.Point(84, 10);
-            this.ChkMarkEven.Name = "ChkMarkEven";
-            this.ChkMarkEven.Size = new System.Drawing.Size(78, 17);
-            this.ChkMarkEven.TabIndex = 1;
-            this.ChkMarkEven.Text = "Mark Even";
-            this.ChkMarkEven.UseVisualStyleBackColor = true;
-            this.ChkMarkEven.CheckedChanged += new System.EventHandler(this.ChkMarkEven_CheckedChanged);
+            this.RdMarkEven.AutoSize = true;
+            this.RdMarkEven.Location = new System.Drawing.Point(58, 12);
+            this.RdMarkEven.Name = "RdMarkEven";
+            this.RdMarkEven.Size = new System.Drawing.Size(50, 17);
+            this.RdMarkEven.TabIndex = 4;
+            this.RdMarkEven.TabStop = true;
+            this.RdMarkEven.Text = "Even";
+            this.RdMarkEven.UseVisualStyleBackColor = true;
+            this.RdMarkEven.CheckedChanged += new System.EventHandler(this.RdMarkEven_CheckedChanged);
             // 
-            // ChkMarkOdd
+            // RdMarkOdd
             // 
-            this.ChkMarkOdd.AutoSize = true;
-            this.ChkMarkOdd.Location = new System.Drawing.Point(6, 10);
-            this.ChkMarkOdd.Name = "ChkMarkOdd";
-            this.ChkMarkOdd.Size = new System.Drawing.Size(73, 17);
-            this.ChkMarkOdd.TabIndex = 0;
-            this.ChkMarkOdd.Text = "Mark Odd";
-            this.ChkMarkOdd.UseVisualStyleBackColor = true;
-            this.ChkMarkOdd.CheckedChanged += new System.EventHandler(this.ChkMarkOdd_CheckedChanged);
+            this.RdMarkOdd.AutoSize = true;
+            this.RdMarkOdd.Location = new System.Drawing.Point(7, 12);
+            this.RdMarkOdd.Name = "RdMarkOdd";
+            this.RdMarkOdd.Size = new System.Drawing.Size(45, 17);
+            this.RdMarkOdd.TabIndex = 3;
+            this.RdMarkOdd.TabStop = true;
+            this.RdMarkOdd.Text = "Odd";
+            this.RdMarkOdd.UseVisualStyleBackColor = true;
+            this.RdMarkOdd.CheckedChanged += new System.EventHandler(this.RdMarkOdd_CheckedChanged);
             // 
             // BtnReset
             // 
@@ -566,26 +591,6 @@
             this.BtnPrint.UseVisualStyleBackColor = true;
             this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "Code";
-            // 
-            // CmbCode
-            // 
-            this.CmbCode.FormattingEnabled = true;
-            this.CmbCode.Items.AddRange(new object[] {
-            "Pump",
-            "Motor"});
-            this.CmbCode.Location = new System.Drawing.Point(69, 74);
-            this.CmbCode.Name = "CmbCode";
-            this.CmbCode.Size = new System.Drawing.Size(148, 21);
-            this.CmbCode.TabIndex = 22;
-            // 
             // PrintData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -627,9 +632,6 @@
         private System.Windows.Forms.ComboBox CmbJobNo;
         private System.Windows.Forms.Label lblJobno;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox ChkMarkAll;
-        private System.Windows.Forms.CheckBox ChkMarkEven;
-        private System.Windows.Forms.CheckBox ChkMarkOdd;
         private System.Windows.Forms.Button BtnClear;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button BtnReset;
@@ -665,5 +667,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn DgvColMark;
         private System.Windows.Forms.ComboBox CmbCode;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton RdMarkAll;
+        private System.Windows.Forms.RadioButton RdMarkEven;
+        private System.Windows.Forms.RadioButton RdMarkOdd;
     }
 }
