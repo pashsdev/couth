@@ -129,9 +129,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(7, 77);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 21;
-            this.label3.Text = "Code";
+            this.label3.Text = "Code *";
             // 
             // CmbTemplate
             // 

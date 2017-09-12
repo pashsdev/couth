@@ -136,6 +136,7 @@ public partial class GetPrintData : System.Web.UI.Page
 
 
             json = JsonConvert.SerializeObject(lstSearch);
+            idr.Close();
         }
         catch (Exception ex)
         {
@@ -205,6 +206,7 @@ public partial class GetPrintData : System.Web.UI.Page
             lstSearch.Add(search);
         }
 
+        idr.Close();
         return lstSearch;
     }
 

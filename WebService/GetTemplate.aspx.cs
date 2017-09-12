@@ -78,6 +78,7 @@ public partial class GetTemplate : System.Web.UI.Page
             }
 
             json = JsonConvert.SerializeObject(lstTemplate);
+            idr.Close();
             //string designationJson = JsonConvert.SerializeObject(lstDesignation);
             //string userJson = JsonConvert.SerializeObject(users);
 

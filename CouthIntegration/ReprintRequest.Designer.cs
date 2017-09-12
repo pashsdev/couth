@@ -116,7 +116,7 @@
             // 
             this.CmbUnits.DisplayMember = "UnitName";
             this.CmbUnits.FormattingEnabled = true;
-            this.CmbUnits.Location = new System.Drawing.Point(580, 50);
+            this.CmbUnits.Location = new System.Drawing.Point(580, 46);
             this.CmbUnits.Name = "CmbUnits";
             this.CmbUnits.Size = new System.Drawing.Size(187, 21);
             this.CmbUnits.TabIndex = 20;
@@ -126,11 +126,11 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(507, 50);
+            this.label6.Location = new System.Drawing.Point(507, 49);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(26, 13);
+            this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 19;
-            this.label6.Text = "Unit";
+            this.label6.Text = "Unit *";
             // 
             // txtJobNo
             // 

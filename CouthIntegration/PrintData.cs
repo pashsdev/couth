@@ -168,6 +168,10 @@ namespace CouthIntegration
                 //lstSearch = lstSearch.Where(x => x.JobNo == (lstPrinted.Select(y => y.Jobnumber)));
                 Grid.AutoGenerateColumns = false;
                 Grid.DataSource = lstSearch;
+                if (lstSearch.Count <= 0)
+                {
+                    MessageBox.Show(this, "No record(s) found for this criteria!", "Search", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 
@@ -219,6 +223,7 @@ namespace CouthIntegration
             string templateText = _templates.Where(x => x.TemplateID == templateID).Select(x => x.TemplateText).FirstOrDefault();
             PrintPreview preview = new PrintPreview(Grid, templateText);
             preview.ShowDialog();
+            this.Close();
             //StringBuilder template = new StringBuilder();
 
             //string _filePath = Path.Combine(Application.StartupPath, _fileName);

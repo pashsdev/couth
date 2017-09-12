@@ -49,14 +49,14 @@
             this.BtnSearch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Grid = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.BtnAdd = new System.Windows.Forms.Button();
             this.DgvColReprintID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColReprintDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColRequestUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvColUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.BtnAdd = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
@@ -92,7 +92,7 @@
             // 
             this.CmbUnits.DisplayMember = "UnitName";
             this.CmbUnits.FormattingEnabled = true;
-            this.CmbUnits.Location = new System.Drawing.Point(69, 74);
+            this.CmbUnits.Location = new System.Drawing.Point(69, 71);
             this.CmbUnits.Name = "CmbUnits";
             this.CmbUnits.Size = new System.Drawing.Size(151, 21);
             this.CmbUnits.TabIndex = 24;
@@ -101,7 +101,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 77);
+            this.label8.Location = new System.Drawing.Point(7, 74);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(26, 13);
             this.label8.TabIndex = 23;
@@ -277,36 +277,6 @@
             this.Grid.Size = new System.Drawing.Size(922, 323);
             this.Grid.TabIndex = 18;
             // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.btnEdit);
-            this.panel2.Controls.Add(this.BtnAdd);
-            this.panel2.Location = new System.Drawing.Point(4, 440);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(922, 34);
-            this.panel2.TabIndex = 19;
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(852, 2);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(62, 26);
-            this.btnEdit.TabIndex = 15;
-            this.btnEdit.Text = "&View";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // BtnAdd
-            // 
-            this.BtnAdd.Location = new System.Drawing.Point(784, 2);
-            this.BtnAdd.Name = "BtnAdd";
-            this.BtnAdd.Size = new System.Drawing.Size(62, 26);
-            this.BtnAdd.TabIndex = 14;
-            this.BtnAdd.Text = "&Add";
-            this.BtnAdd.UseVisualStyleBackColor = true;
-            this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
-            // 
             // DgvColReprintID
             // 
             this.DgvColReprintID.DataPropertyName = "ReprintID";
@@ -344,6 +314,36 @@
             this.DgvColUnit.HeaderText = "Unit";
             this.DgvColUnit.Name = "DgvColUnit";
             this.DgvColUnit.ReadOnly = true;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btnEdit);
+            this.panel2.Controls.Add(this.BtnAdd);
+            this.panel2.Location = new System.Drawing.Point(4, 440);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(922, 34);
+            this.panel2.TabIndex = 19;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(852, 2);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(62, 26);
+            this.btnEdit.TabIndex = 15;
+            this.btnEdit.Text = "&View";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // BtnAdd
+            // 
+            this.BtnAdd.Location = new System.Drawing.Point(784, 2);
+            this.BtnAdd.Name = "BtnAdd";
+            this.BtnAdd.Size = new System.Drawing.Size(62, 26);
+            this.BtnAdd.TabIndex = 14;
+            this.BtnAdd.Text = "&Add";
+            this.BtnAdd.UseVisualStyleBackColor = true;
+            this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // ReprintRequestListing
             // 

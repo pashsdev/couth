@@ -126,6 +126,7 @@ public partial class GetPrintDataLocal : System.Web.UI.Page
 
 
             json = JsonConvert.SerializeObject(lstSearch);
+            idr.Close();
         }
         catch (Exception ex)
         {

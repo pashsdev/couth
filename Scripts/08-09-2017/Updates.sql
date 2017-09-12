@@ -16,6 +16,10 @@ Alter Table cri_serial_numbers Add PrintCount BIGINT NOT NULL CONSTRAINT DF_cri_
 GO
 Alter Table cri_serial_numbers Add CODE VARCHAR(40)
 GO
+Alter table ReprintDetails Add OrgID BIGINT
+GO
+Alter table ReprintDetails Add Code Varchar(30)
+GO
 Alter Proc PG_Unit_Save
 (
 @UnitID BigInt,
@@ -206,14 +210,16 @@ Create Proc PG_Save_ReprintRequestDetails
 @Item_Code Varchar(40),
 @Description Varchar(240),
 @TemplateID BIGINT,
-@Remarks Varchar(200)
+@Remarks Varchar(200),
+@OrgID BIGINT,
+@Code VARCHAR(30)
 )
 as
 BEGIN
 	Declare @ReprintID BIGINT
 	Select @ReprintID = ReprintID From Reprint WITH (NOLOCK) Where ReprintNo = @RequestNo
-	Insert Into ReprintDetails( ReprintID,Serial_Number,JobNumber,Item_Code,[Description],TemplateId,Remarks) 
-	values (@ReprintID ,@Serial_Number,@Jobnumber,@Item_Code,@Description,@TemplateID,@Remarks)
+	Insert Into ReprintDetails( ReprintID,Serial_Number,JobNumber,Item_Code,[Description],TemplateId,Remarks,OrgID,Code) 
+	values (@ReprintID ,@Serial_Number,@Jobnumber,@Item_Code,@Description,@TemplateID,@Remarks,@OrgID,@Code)
 END
 
 Go
@@ -247,7 +253,7 @@ BEGIN
    rd.[Description],rd.Item_Code,rd.JobNumber,rd.ReprintDetailsID,rd.Serial_Number,Rd.TemplateID,rd.Remarks, tem.TemplateName as Template, ccv.PrintCount,ccv.code
   From Reprint r WITH (NOLOCK)
   Inner Join ReprintDetails rd WITH (NOLOCK) on r.ReprintID = rd.ReprintID
-  Inner Join cri_serial_numbers ccv on rd.Serial_Number = ccv.Serial_Number
+  Inner Join cri_serial_numbers ccv on rd.Serial_Number = ccv.Serial_Number and rd.orgid = ccv.organization_id and rd.code = ccv.CODE
   Inner Join Users u on r.RequestUserID = u.UserID 
   Left Join Users app on rd.ApprovedBy = app.UserID 
   Left Join cri_Templates tem on rd.TemplateID = tem.TemplateID
@@ -341,18 +347,22 @@ END
 
 GO
 
-Create Proc PG_User_Listing
+Alter Proc PG_User_Listing
 (
-	@UserID BigInt = NULL
+	@UserID BigInt = NULL,
+	@UnitID BigInt = NULL
 )
 as
 --Select UserID, UserName, [Password], Email, IsApprover, IsAdmin,CONVERT(varchar(20),FromDate,103) AS FromDate,
 --Convert(varchar(20),ToDate,103) as Todate From Users WITH (NOLOCK) Where UserID = COAlESCE(@UserID,UserID)
 
 Select UserID, UserName, [Password], Email, IsApprover, IsAdmin, FromDate,Todate 
-From Users WITH (NOLOCK) Where UserID = COAlESCE(@UserID,UserID)
+From Users WITH (NOLOCK) Where UserID = COALESCE(@UserID,UserID)
 
 Select * From Units un WITH (NOLOCK)
-Left Join (Select uu.UserUnitID,uu.UserID,uu.UnitID,uu.FullRights,uu.ViewRights From UserUnits uu WITH (NOLOCK) 
-Inner Join Users u on uu.userID = u.UserID
-Where uu.UserID = @UserID) unr ON un.UnitID = unr.UnitID
+Left Join (
+	Select uu.UserUnitID,uu.UserID,uu.UnitID,uu.FullRights,uu.ViewRights From UserUnits uu WITH (NOLOCK) 
+	Inner Join Users u on uu.userID = u.UserID
+	Where uu.UserID = @UserID
+	) unr ON un.UnitID = unr.UnitID
+	Where un.UnitID = COALESCE(@UnitID,un.unitID)

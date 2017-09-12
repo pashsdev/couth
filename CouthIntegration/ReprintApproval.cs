@@ -42,7 +42,7 @@ namespace CouthIntegration
             _units = Common.GetUnits(0);
             Unit unit = new Unit();
             unit.UnitID = 0;
-            unit.UnitName = "--All--";
+            unit.UnitName = "--Select--";
             _units.Insert(0, unit);
             CmbUnits.DataSource = _units;
         }

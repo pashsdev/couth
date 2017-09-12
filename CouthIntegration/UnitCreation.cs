@@ -106,7 +106,7 @@ namespace CouthIntegration
         public List<Unit> GetUnits(Int64 UnitID)
         {
             string webserviceURL = Common.GetWebServiceURL();
-            webserviceURL = string.Concat(webserviceURL, "GetUnits.aspx?UnitId=", UnitID);
+            webserviceURL = string.Concat(webserviceURL, "GetUnits.aspx?UserID=" , Common.UserID , "&UnitId=", UnitID);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(webserviceURL));
             request.Method = "GET";
             request.ContentType = "application/x-www-form-urlencoded";

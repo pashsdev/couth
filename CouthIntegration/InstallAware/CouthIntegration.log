@@ -6,5 +6,4 @@ Compression: Default
 Compiler Variables: UAC=highestAvailable,BUILDMODE=CD,LANGUAGE=English,TITLE=CouthIntegration,TARGETDIR=$TARGETDIR$,IADIR=C:\PROGRA~2\INSTAL~2,PROJDIR=C:\Prakash\Projects\CRI\Couth\COUTHI~1\INSTAL~1,IAVER=23.11
 ###
 Cleared output folder C:\Prakash\Projects\CRI\Couth\CouthIntegration\InstallAware\Release\Uncompressed\
-Built plug-in action (Un)Install MSI Setup
-Error during build: Failed to compile plug-in action: File Bag
+Error during build: Aborted by user

@@ -116,6 +116,7 @@ public partial class ReprintData : System.Web.UI.Page
             {
                 rePrintNo = helper.GetString("ReprintNo");
             }
+            idr.Close();
         }
         catch (Exception ex)
         {
@@ -187,6 +188,7 @@ public partial class ReprintData : System.Web.UI.Page
             }
 
             json = JsonConvert.SerializeObject(reprintMasters);
+            idr.Close();
         }
         catch (Exception ex)
         {
@@ -280,6 +282,7 @@ public partial class ReprintData : System.Web.UI.Page
             }
 
             json = JsonConvert.SerializeObject(reprintDetails);
+            idr.Close();
         }
         catch (Exception ex)
         {
@@ -346,6 +349,7 @@ public partial class ReprintData : System.Web.UI.Page
             }
 
             json = JsonConvert.SerializeObject(lstReprint);
+            idr.Close();
         }
         catch (Exception ex)
         {
@@ -381,6 +385,8 @@ public partial class ReprintData : System.Web.UI.Page
                 detailparameters.Add("Description", rePrint.Description, SqlDbType.VarChar);
                 detailparameters.Add("TemplateID", rePrint.TemplateID, SqlDbType.BigInt);
                 detailparameters.Add("Remarks", rePrint.Remarks, SqlDbType.VarChar);
+                detailparameters.Add("orgid", rePrint.OracleUnitID, SqlDbType.BigInt);
+                detailparameters.Add("code", rePrint.Code, SqlDbType.VarChar);
                 SqlHelper.ExecuteNonQuery(connectionstring, "PG_Save_ReprintRequestDetails", CommandType.StoredProcedure, detailparameters);
             }
         }

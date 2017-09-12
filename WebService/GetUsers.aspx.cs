@@ -86,6 +86,7 @@ public partial class GetUsers : System.Web.UI.Page
             users.users = lstuser;
             users.userUnits = lstUserUnits;
             json = JsonConvert.SerializeObject(users);
+            idr.Close();
         }
         catch (Exception ex)
         {

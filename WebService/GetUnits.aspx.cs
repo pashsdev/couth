@@ -107,6 +107,7 @@ public partial class GetUnits : System.Web.UI.Page
             responseJson.Users = users;
             responseJson.UnitRights = unitRights;
             json = JsonConvert.SerializeObject(responseJson);
+            idr.Close();
             //string designationJson = JsonConvert.SerializeObject(lstDesignation);
             //string userJson = JsonConvert.SerializeObject(users);
 

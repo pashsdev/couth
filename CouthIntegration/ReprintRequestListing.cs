@@ -57,11 +57,11 @@ namespace CouthIntegration
         {
             Int64 unitID = 0;
             Int64.TryParse(CmbUnits.SelectedValue.ToString(), out unitID);
-
+            DateTime toDate = DtTo.Value.AddDays(1);
             Int64 reprintID = 0;
             Int64.TryParse(CmbRequestNo.SelectedValue.ToString(), out reprintID);
             Grid.AutoGenerateColumns = false;
-            Grid.DataSource = Common.GetReprintMaster(txtJobNo.Text, txtSerialNoFrom.Text, txtSerialNoTo.Text, unitID, reprintID, DtFrom.Value, DtTo.Value);
+            Grid.DataSource = Common.GetReprintMaster(txtJobNo.Text, txtSerialNoFrom.Text, txtSerialNoTo.Text, unitID, reprintID, DtFrom.Value, toDate);
         }
 
         private void btnEdit_Click(object sender, EventArgs e)

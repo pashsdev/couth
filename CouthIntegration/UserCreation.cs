@@ -167,7 +167,7 @@ namespace CouthIntegration
                 List<UserUnits> lstUserUnits = new List<UserUnits>();
                 foreach (DataGridViewRow row in grid.Rows)
                 {
-                    if (row.Cells["DgvColFull"] != null && row.Cells["DgvColView"] != null)
+                    if (row.Cells["DgvColFull"] != null && row.Cells["DgvColView"] != null && (Convert.ToBoolean(row.Cells["DgvColFull"].Value) || Convert.ToBoolean(row.Cells["DgvColView"].Value)))
                     {
                         UserUnits userunits = new UserUnits();
                         userunits.FullRights = Convert.ToBoolean(row.Cells["DgvColFull"].Value);
