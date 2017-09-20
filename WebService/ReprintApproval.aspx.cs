@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using System.Net;
 using System;
 using System.Collections.Generic;
+using System.IO;
+
 
 public partial class ReprintApproval : System.Web.UI.Page
 {
@@ -18,6 +20,15 @@ public partial class ReprintApproval : System.Web.UI.Page
         {
             string data = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
             SaveData(data);
+        }
+    }
+
+    private void Log(string message)
+    { 
+        string path = "C:\\temp\\couth";
+        if (Directory.Exists(path))
+        {
+            File.AppendAllText(string.Concat(path, "log.txt"), string.Concat(message, Environment.NewLine));
         }
     }
 

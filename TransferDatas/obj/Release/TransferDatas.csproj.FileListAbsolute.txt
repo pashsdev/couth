@@ -3,3 +3,8 @@ C:\Prakash\Projects\CRI\TransferDatas\bin\Release\TransferDatas.pdb
 C:\Prakash\Projects\CRI\TransferDatas\obj\Release\TransferDatas.dll
 C:\Prakash\Projects\CRI\TransferDatas\obj\Release\TransferDatas.pdb
 C:\Prakash\Projects\CRI\TransferDatas\obj\Release\TransferDatas.csprojResolveAssemblyReference.cache
+C:\Prakash\Projects\CRI\Couth\TransferDatas\bin\Release\TransferDatas.dll
+C:\Prakash\Projects\CRI\Couth\TransferDatas\bin\Release\TransferDatas.pdb
+C:\Prakash\Projects\CRI\Couth\TransferDatas\obj\Release\TransferDatas.csprojResolveAssemblyReference.cache
+C:\Prakash\Projects\CRI\Couth\TransferDatas\obj\Release\TransferDatas.dll
+C:\Prakash\Projects\CRI\Couth\TransferDatas\obj\Release\TransferDatas.pdb

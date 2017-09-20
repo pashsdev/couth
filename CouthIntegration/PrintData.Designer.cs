@@ -117,8 +117,14 @@
             // 
             this.CmbCode.FormattingEnabled = true;
             this.CmbCode.Items.AddRange(new object[] {
+            "Motor",
+            "Pump Only",
             "Pump",
-            "Motor"});
+            "Valve",
+            "Motor Only",
+            "Pump Set",
+            "Cable",
+            "Pannel Box"});
             this.CmbCode.Location = new System.Drawing.Point(69, 74);
             this.CmbCode.Name = "CmbCode";
             this.CmbCode.Size = new System.Drawing.Size(148, 21);

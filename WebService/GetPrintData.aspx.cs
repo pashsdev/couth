@@ -45,7 +45,7 @@ public partial class GetPrintData : System.Web.UI.Page
         {
             string data = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
             SaveData(data);
-            UpdatePrintData(serialNoFrom);
+            UpdatePrintData(data);
         }
         else
         {
@@ -98,16 +98,16 @@ public partial class GetPrintData : System.Web.UI.Page
                 parameters.Add("code", DBNull.Value, OracleDbType.Varchar2);
             }
             parameters.Add("cursor_", OracleDbType.RefCursor, ParameterDirection.Output);
-
-            IDataReader idr = OracleHelper.ExcuteOracleReader(connectionString, query, CommandType.StoredProcedure, parameters);
+            OracleDataReader idr = OracleHelper.ExcuteOracleReader(connectionString, query, CommandType.StoredProcedure, parameters);
             SqlDataReaderHelper helper = new SqlDataReaderHelper(idr);
+            
             List<Search> lstSearch = new List<Search>();
             Int64 i = 1;
             while (idr.Read())
             {
                 Search search = new Search();
                 search.Sno = i;
-                search.Inventory_Item_Id = helper.GetInt64("Inventory_Item_Id");
+                search.Inventory_Item_Id = idr. ("Inventory_Item_Id");
                 search.Printed = false;
                 search.Product = helper.GetString("Item_name");
                 search.JobNo = helper.GetString("Jobnumber");
@@ -133,8 +133,6 @@ public partial class GetPrintData : System.Web.UI.Page
             //List<Search> printerSearch = Printed();
             //List<Search> result = lstSearch.Where(x => x.Product == "a").ToList();
 
-
-
             json = JsonConvert.SerializeObject(lstSearch);
             idr.Close();
         }
@@ -150,28 +148,63 @@ public partial class GetPrintData : System.Web.UI.Page
         }
     }
 
-    private void UpdatePrintData(string SerialNoFrom)
+    private void LoadData()
     {
-        string json = string.Empty;
+        string connectionString = Common.GetConnectionString();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleCommand cmd = new OracleCommand();
+        cmd.CommandText = "PG_GET_JOBNODETAILS";
+        cmd.Connection = con;
+        con.Open();
+
+        OracleParameter p_org_id = new OracleParameter();
+        p_org_id.OracleDbType = OracleDbType.Int62;
+        p_department_id.Value = departmentID.Text;
+        cmd.Parameters.Add(p_department_id);
+
+        OracleDataReader dr = cmd.ExecuteReader();
+        if (dr.HasRows)
+        {
+            Response.Write("<table border='1'>");
+            Response.Write("<tr><th>Name</th><th>Roll No</th></tr>");
+            while (dr.Read())
+            {
+
+                Response.Write("<tr>");
+                Response.Write("<td>" + dr["name"].ToString() + "</td>");
+                Response.Write("<td>" + dr["roll_no"].ToString() + "</td>");
+                Response.Write("</tr>");
+            }
+            Response.Write("</table>");
+        }
+    }
+
+    private void UpdatePrintData(string json)
+    {
         try
         {
-            OracleParameterList parameters = new OracleParameterList();
-            string connectionString = Common.GetConnectionString();
-            string query = "PG_UPDATE_JOBNODETAILS";
-            //string query = "SELECT sn.Item_name,e.Jobnumber,e.SERIAL_NUMBER,'tt' as TemplateName FROM cri_catalog_values e INNER JOIN cri_serial_numbers sn ON e.Item_Code=sn.Item_name ";
-            //string query = "Select * From cri_catalog_values";
-
-            if (!string.IsNullOrEmpty(SerialNoFrom))
+            List<Search> lstsearchRequest = JsonConvert.DeserializeObject<List<Search>>(json);
+            foreach (Search searchRequest in lstsearchRequest)
             {
-                parameters.Add("p_serial", SerialNoFrom, OracleDbType.Varchar2);
-            }
-            else
-            {
-                parameters.Add("p_serial", DBNull.Value, OracleDbType.Varchar2);
-            }
-            parameters.Add("p_printed", "Y", OracleDbType.Varchar2);
+                OracleParameterList parameters = new OracleParameterList();
+                string connectionString = Common.GetConnectionString();
+                string query = "PG_UPDATE_JOBNODETAILS";
+                //string query = "SELECT sn.Item_name,e.Jobnumber,e.SERIAL_NUMBER,'tt' as TemplateName FROM cri_catalog_values e INNER JOIN cri_serial_numbers sn ON e.Item_Code=sn.Item_name ";
+                //string query = "Select * From cri_catalog_values";
 
-            OracleHelper.ExecuteNonQuery(connectionString, query, CommandType.StoredProcedure, parameters, -1);
+                if (!string.IsNullOrEmpty(searchRequest.SerialNo))
+                {
+                    parameters.Add("p_serial", searchRequest.SerialNo, OracleDbType.Varchar2);
+                }
+                else
+                {
+                    parameters.Add("p_serial", DBNull.Value, OracleDbType.Varchar2);
+                }
+                parameters.Add("p_printed", "Y", OracleDbType.Varchar2);
+                parameters.Add("Org_ID", searchRequest.ORG_ID, OracleDbType.Decimal);
+                parameters.Add("Code", searchRequest.CODE, OracleDbType.VarChar2);
+                OracleHelper.ExecuteNonQuery(connectionString, query, CommandType.StoredProcedure, parameters, -1);
+            }
 
         }
         catch (Exception ex)

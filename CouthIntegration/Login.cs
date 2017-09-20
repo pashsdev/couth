@@ -49,7 +49,9 @@ namespace CouthIntegration
                 }
 
                 Common.UserID = user.UserID;
-                Main main = new Main();
+                Common.CurrentUser = user;
+                MainForm main = new MainForm();
+                //Main main = new Main();
                 main.Show();
                 if (frmlogin != null)
                 {

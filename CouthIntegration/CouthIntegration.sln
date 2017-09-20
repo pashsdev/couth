@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CouthIntegration", "CouthIn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferDatas", "..\TransferDatas\TransferDatas.csproj", "{BC88A4B5-4373-4413-A05D-30041C97D295}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PG.Helper", "..\PG.Helper\PG.Helper\PG.Helper.csproj", "{DCD81DE0-4D95-44CB-B69E-3E9667B90296}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{BC88A4B5-4373-4413-A05D-30041C97D295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC88A4B5-4373-4413-A05D-30041C97D295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC88A4B5-4373-4413-A05D-30041C97D295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD81DE0-4D95-44CB-B69E-3E9667B90296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD81DE0-4D95-44CB-B69E-3E9667B90296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD81DE0-4D95-44CB-B69E-3E9667B90296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD81DE0-4D95-44CB-B69E-3E9667B90296}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

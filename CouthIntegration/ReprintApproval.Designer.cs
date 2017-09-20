@@ -72,7 +72,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(8, 8);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1378, 32);
+            this.panel1.Size = new System.Drawing.Size(1290, 32);
             this.panel1.TabIndex = 4;
             // 
             // CmbRequestNo
@@ -112,7 +112,7 @@
             // 
             // BtnList
             // 
-            this.BtnList.Location = new System.Drawing.Point(1297, 4);
+            this.BtnList.Location = new System.Drawing.Point(1210, 4);
             this.BtnList.Name = "BtnList";
             this.BtnList.Size = new System.Drawing.Size(75, 23);
             this.BtnList.TabIndex = 4;
@@ -163,7 +163,7 @@
             this.DgvColRejRemarks});
             this.Grid.Location = new System.Drawing.Point(8, 46);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(1378, 453);
+            this.Grid.Size = new System.Drawing.Size(1290, 453);
             this.Grid.TabIndex = 5;
             this.Grid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Grid_CellValueChanged);
             // 
@@ -282,12 +282,12 @@
             this.panel2.Controls.Add(this.BtnSave);
             this.panel2.Location = new System.Drawing.Point(8, 505);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1378, 34);
+            this.panel2.Size = new System.Drawing.Size(1290, 35);
             this.panel2.TabIndex = 16;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(1297, 6);
+            this.BtnCancel.Location = new System.Drawing.Point(1214, 6);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 23);
             this.BtnCancel.TabIndex = 15;
@@ -297,7 +297,7 @@
             // 
             // BtnSave
             // 
-            this.BtnSave.Location = new System.Drawing.Point(1216, 6);
+            this.BtnSave.Location = new System.Drawing.Point(1133, 6);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(75, 23);
             this.BtnSave.TabIndex = 14;
@@ -309,7 +309,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1391, 551);
+            this.ClientSize = new System.Drawing.Size(1302, 551);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel1);

@@ -1,0 +1,6 @@
+C:\Prakash\Projects\CRI\Couth\PG.Helper\PG.Helper\bin\Release\PG.Helper.dll
+C:\Prakash\Projects\CRI\Couth\PG.Helper\PG.Helper\bin\Release\PG.Helper.pdb
+C:\Prakash\Projects\CRI\Couth\PG.Helper\PG.Helper\bin\Release\Oracle.DataAccess.dll
+C:\Prakash\Projects\CRI\Couth\PG.Helper\PG.Helper\obj\Release\PG.Helper.csprojResolveAssemblyReference.cache
+C:\Prakash\Projects\CRI\Couth\PG.Helper\PG.Helper\obj\Release\PG.Helper.dll
+C:\Prakash\Projects\CRI\Couth\PG.Helper\PG.Helper\obj\Release\PG.Helper.pdb

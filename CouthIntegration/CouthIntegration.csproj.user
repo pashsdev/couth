@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
-    <PublishUrlHistory>C:\Prakash\Projects\CRI\WebService\publish\|publish\</PublishUrlHistory>
+    <PublishUrlHistory>C:\Prakash\Projects\CRI\couth\WebService\publish\|C:\Prakash\Projects\CRI\WebService\publish\|publish\</PublishUrlHistory>
     <InstallUrlHistory>http://192.168.50.145/webservices/publish/|http://localhost/Testapp/publish/|http://192.168.50.144/webservices/publish/|http://192.168.50.145/|http://192.168/</InstallUrlHistory>
     <SupportUrlHistory />
-    <UpdateUrlHistory>http://localhost/Testapp/publish/|http://192.168.50.145/webservices/publish/</UpdateUrlHistory>
+    <UpdateUrlHistory>http://192.168.50.145/webservices/publish/|http://localhost/Testapp/publish/</UpdateUrlHistory>
     <BootstrapperUrlHistory>http://localhost/Testapp/publish/SETUP/setup.exe</BootstrapperUrlHistory>
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
